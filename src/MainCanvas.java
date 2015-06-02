@@ -8,6 +8,7 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
+import javax.media.j3d.Group;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -93,7 +94,7 @@ public class MainCanvas extends Canvas3D {
 		r.startDancing();
 	}
 	
-	public void addObject(BranchGroup object) {
+	public void addObject(Group object) {
 		worldGroup.addChild(object);
 	}
 	
