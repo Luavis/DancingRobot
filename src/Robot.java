@@ -26,7 +26,7 @@ public class Robot extends WaveFontObject implements DancingRobot, Animatable, D
 		this(Resources.robotPath);
 	}
 	
-	protected Robot(URL filePath) {
+	protected Robot(String filePath) {
 		super(filePath);
 		
 		Hashtable<String, Shape3D> sceneHash = (Hashtable<String, Shape3D>)this.scene.getNamedObjects();

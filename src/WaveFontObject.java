@@ -12,11 +12,11 @@ import com.sun.j3d.loaders.objectfile.ObjectFile;
 
 public class WaveFontObject { // .obj file object in 3d
 	
-	protected URL filePath;
+	protected String filePath;
 	protected BranchGroup branch;
 	protected Scene scene;
 	
-	public WaveFontObject(URL filePath) {
+	public WaveFontObject(String filePath) {
 		this.filePath = filePath;
 		scene = this.createScene();
 	    branch = scene.getSceneGroup();
