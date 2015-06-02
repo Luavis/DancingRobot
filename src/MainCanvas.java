@@ -120,7 +120,7 @@ public class MainCanvas extends Canvas3D {
 	    // appear in the scene.
 	    TransformGroup objScale = new TransformGroup();
 	    Transform3D t3d = new Transform3D();
-	    t3d.setScale(0.2);
+	    t3d.setScale(0.5);
 	    
 	    objScale.setTransform(t3d);
 	    objRoot.addChild(objScale);

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 
 public class Animator {
@@ -8,6 +9,9 @@ public class Animator {
 	private ArrayList<Double> commonVelocities = new ArrayList<Double>();
 	private double fps = 30.0f;
 	private double currentFrame = 1;
+	
+	private boolean isStartedPoint = false;
+	private Stack<Integer> startIndexesStack = new Stack<Integer>();
 	
 	public Animator() {
 		this(AnimationManager.FPS);
@@ -21,9 +25,31 @@ public class Animator {
 		return this.parallel(1, ms);
 	}
 	
+	public Animator start() {
+		isStartedPoint = true;
+		startIndexesStack.add(movements.size()); // last index + 1 for new start
+		
+		return this;
+	}
+
+	public Animator end() {
+		if(!isStartedPoint) {
+			throw(new IllegalStateException("It dosen't start"));
+		}
+		
+		startIndexesStack.pop(); // pop value
+		
+		if(startIndexesStack.size() == 0) {
+			isStartedPoint = false;
+		}
+		
+		return this;
+	}
+	
 	public Animator parallel(double commonVelocity, Movement... ms) {
 		commonVelocities.add(commonVelocity);
 		movements.add(ms);
+		
 		return this;
 	}
 	
@@ -31,45 +57,112 @@ public class Animator {
 		return this.repeat(cnt, true);
 	}
 	
-	public Animator repeat(int cnt, boolean repeat) {
+	public int getLastStartIndex() {
+		return this.startIndexesStack.lastElement();
+	}
+	
+	public int getCurrentEndIndex() {
+		return this.movements.size() - 1;
+	}
+	
+	// Magic, Do not touch it.
+	
+	public Animator repeat(int cnt, boolean reverse) {
 		
-		if(!repeat) { // get last
-			double commonVelocity = commonVelocities.get(commonVelocities.size() - 1);
-			Movement[] ms = movements.get(movements.size() - 1);
-			
-			for(int i = 0; i < cnt; i++) {
-				commonVelocities.add(commonVelocity);
-				movements.add(ms);
+		if(!reverse) { // get last
+			if(!isStartedPoint) {
+				double commonVelocity = commonVelocities.get(commonVelocities.size() - 1);
+				Movement[] ms = movements.get(movements.size() - 1);
+				
+				for(int i = 0; i < cnt; i++) {
+					commonVelocities.add(commonVelocity);
+					movements.add(ms);
+				}
+			}
+			else {
+				
+				double originDelta = commonVelocities.get(commonVelocities.size() - 1);
+				int endPoint = this.getCurrentEndIndex();
+				
+				for(int j = 0; j < cnt; j++) {
+					for(int i = this.getLastStartIndex(); i <= endPoint; i++) {
+						Movement[] ms = movements.get(i);
+						
+						commonVelocities.add(originDelta);
+						movements.add(ms);
+					}
+				}
 			}
 		}
 		else {
+			
+			int endPoint = this.getCurrentEndIndex();
+			double originDelta = commonVelocities.get(commonVelocities.size() - 1);
+			
 			for(int i = 0; i < cnt * 2 - 1; i++) {
-				this.reverse();
+				if(!isStartedPoint) {
+					this.reverse();
+				}
+				else {
+					
+					for(int j = this.getLastStartIndex(); j <= endPoint; j++) {
+						Movement[] ms = movements.get(j);
+						int msSize = ms.length;
+						
+						Movement[] rMs = new Movement[msSize];
+						
+						for(int k = 0; k < msSize; k++) {
+							if(i % 2 == 0)
+								rMs[k] = ms[k].reverseClone();
+							else
+								rMs[k] = ms[k].clone();
+						}
+						
+						movements.add(rMs);
+						commonVelocities.add(originDelta);
+					}
+				}
 			}
 		}
 		
 		return this;
 	}
 	
-	public Animator reverse() {
-		double delta = commonVelocities.get(commonVelocities.size() - 1);
-		return this.reverse(delta);
-	}
+	// Magic, Do not touch it.
 	
-	public Animator reverse(double delta) {
-//		double originDelta = commonVelocities.get(commonVelocities.size() - 1);
+	public Animator reverse() {
+		double originDelta = commonVelocities.get(commonVelocities.size() - 1);
 		
-		Movement[] ms = movements.get(movements.size() - 1);
-		int msSize = ms.length;
-		
-		Movement[] rMs = new Movement[msSize];
-		
-		for(int i = 0; i < msSize; i++) {
-			rMs[i] = ms[i].reverseClone();
+		if(!isStartedPoint) {
+			Movement[] ms = movements.get(movements.size() - 1);
+			int msSize = ms.length;
+			
+			Movement[] rMs = new Movement[msSize];
+			
+			for(int i = 0; i < msSize; i++) {
+				rMs[i] = ms[i].reverseClone();
+			}
+			
+			movements.add(rMs);
+			commonVelocities.add(originDelta);
 		}
-		
-		movements.add(rMs);
-		commonVelocities.add(delta);
+		else {
+			int endPoint = this.getCurrentEndIndex();
+			
+			for(int i = this.getLastStartIndex(); i < endPoint; i++) {
+				Movement[] ms = movements.get(movements.size() - 1);
+				int msSize = ms.length;
+				
+				Movement[] rMs = new Movement[msSize];
+				
+				for(int j = 0; j < msSize; j++) {
+					rMs[j] = ms[j].reverseClone();
+				}
+				
+				movements.add(rMs);
+				commonVelocities.add(originDelta);
+			}
+		}
 		
 		return this;
 	}

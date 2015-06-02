@@ -18,7 +18,7 @@ public class Movement implements Cloneable {
 	private double frontDelayRate = 0.0f;
 	private double backDelayRate = 0.0f;
 	
-	private double deltaRate = 1.0f;
+//	private double deltaRate = 1.0f;
 	
 	public Movement(SmartBranchGroup smtTarget, int type) {
 		this(smtTarget, type, new Vector3d(), -1);
@@ -124,6 +124,9 @@ public class Movement implements Cloneable {
 	
 	public void move(double moveRate) {
 		
+		if(this.frontDelayRate > moveRate) { 
+			this.reloadOriginVector(); // when front delay some movement change origin target vector
+		}
 		if( this.frontDelayRate > moveRate || 1 - this.backDelayRate < moveRate)
 			return; // delay
 		
@@ -143,9 +146,9 @@ public class Movement implements Cloneable {
 		}
 	}
 	
-	public void setDelatRate(double rate) {
-		
-	}
+//	public void setDelatRate(double rate) {
+//		
+//	}
 	
 	@Override
 	public Movement clone() {
