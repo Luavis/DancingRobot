@@ -27,9 +27,20 @@ public class Animator {
 		return this;
 	}
 	
-//	public Animator parallel(double commonVelocity, Movement[] ms) {
-//		
-//	}
+	public Animator repeat(int cnt) {
+		
+		// get last
+		
+		double commonVelocity = commonVelocities.get(commonVelocities.size() - 1);
+		Movement[] ms = movements.get(movements.size() - 1);
+		
+		for(int i = 0; i < cnt; i++) {
+			commonVelocities.add(commonVelocity);
+			movements.add(ms);
+		}
+		
+		return this;
+	}
 	
 	public void commit() {
 		
