@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
@@ -34,9 +35,10 @@ public class Application {
 		
 		this.windowFrame.setLayout(new BorderLayout());
 		this.windowFrame.add("Center", stage);
-		
+//		JButton button = new JButton("fuck hello");
+//		
+//		this.windowFrame.add(BorderLayout.PAGE_END, button);
 	}
-	
 //  public void destroy() {
 //    u.cleanup();
 //  }

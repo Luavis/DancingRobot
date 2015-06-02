@@ -28,15 +28,24 @@ public class Animator {
 	}
 	
 	public Animator repeat(int cnt) {
+		return this.repeat(cnt, true);
+	}
+	
+	public Animator repeat(int cnt, boolean repeat) {
 		
-		// get last
-		
-		double commonVelocity = commonVelocities.get(commonVelocities.size() - 1);
-		Movement[] ms = movements.get(movements.size() - 1);
-		
-		for(int i = 0; i < cnt; i++) {
-			commonVelocities.add(commonVelocity);
-			movements.add(ms);
+		if(!repeat) { // get last
+			double commonVelocity = commonVelocities.get(commonVelocities.size() - 1);
+			Movement[] ms = movements.get(movements.size() - 1);
+			
+			for(int i = 0; i < cnt; i++) {
+				commonVelocities.add(commonVelocity);
+				movements.add(ms);
+			}
+		}
+		else {
+			for(int i = 0; i < cnt * 2 - 1; i++) {
+				this.reverse();
+			}
 		}
 		
 		return this;
