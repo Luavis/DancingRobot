@@ -42,6 +42,29 @@ public class Animator {
 		return this;
 	}
 	
+	public Animator reverse() {
+		double delta = commonVelocities.get(commonVelocities.size() - 1);
+		return this.reverse(delta);
+	}
+	
+	public Animator reverse(double delta) {
+//		double originDelta = commonVelocities.get(commonVelocities.size() - 1);
+		
+		Movement[] ms = movements.get(movements.size() - 1);
+		int msSize = ms.length;
+		
+		Movement[] rMs = new Movement[msSize];
+		
+		for(int i = 0; i < msSize; i++) {
+			rMs[i] = ms[i].reverseClone();
+		}
+		
+		movements.add(rMs);
+		commonVelocities.add(delta);
+		
+		return this;
+	}
+	
 	public void commit() {
 		
 		// set none velocity

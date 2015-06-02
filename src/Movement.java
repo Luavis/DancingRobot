@@ -1,7 +1,7 @@
 import javax.vecmath.Vector3d;
 
 
-public class Movement {
+public class Movement implements Cloneable {
 	static public int ROTATION = 1;
 	static public int TRANS = 2;
 	static private int DELTA_SECONDS_DEFAULT = -1;
@@ -17,6 +17,8 @@ public class Movement {
 	
 	private double frontDelayRate = 0.0f;
 	private double backDelayRate = 0.0f;
+	
+	private double deltaRate = 1.0f;
 	
 	public Movement(SmartBranchGroup smtTarget, int type) {
 		this(smtTarget, type, new Vector3d(), -1);
@@ -139,6 +141,27 @@ public class Movement {
 		else if(this.type == TRANS) {
 			this.smtTarget.transition(x, y, z);
 		}
+	}
+	
+	public void setDelatRate(double rate) {
+		
+	}
+	
+	@Override
+	public Movement clone() {
+		
+		Movement newM = new Movement(this.smtTarget, this.type);
+		newM.setX(this.vec.x).setY(this.vec.y).setZ(this.vec.z).setDeltaSecond(this.deltaSeconds);
+		
+		return newM;
+	}
+	
+	public Movement reverseClone() {
+		
+		Movement newM = new Movement(this.smtTarget, this.type);
+		newM.setX(-1 * this.vec.x).setY(-1 * this.vec.y).setZ(-1 * this.vec.z).setDeltaSecond(this.deltaSeconds);
+		
+		return newM;
 	}
 }
 
