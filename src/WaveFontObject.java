@@ -47,7 +47,11 @@ public class WaveFontObject { // .obj file object in 3d
 	    return s;
 	}
 	
-	public Group getBranchGroup() {
+	public Group getSuperGroup() { 
 		return branch.getSuperGroup();
+	}
+	
+	public Group getBranchGroup() {
+		return branch.getWrapGroup();
 	}
 }

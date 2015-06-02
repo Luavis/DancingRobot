@@ -3,7 +3,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 public class AnimationManager {
-	static public float FPS = 30.0f;
+	static public double FPS = Constants.FPS;
 	
 	private MainCanvas canvas;
 	private Thread animationThread;

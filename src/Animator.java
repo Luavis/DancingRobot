@@ -10,7 +10,7 @@ public class Animator {
 	private double currentFrame = 1;
 	
 	public Animator() {
-		this(30);
+		this(AnimationManager.FPS);
 	}
 	
 	public Animator(double fps) {
@@ -122,10 +122,10 @@ public class Animator {
 				
 				for(Movement sameM: sameTypeMs) {
 					sameM.setFrontDelay(sumFrontDelay);
-					sumFrontDelay += sameM.totalTime();
+					sumFrontDelay += sameM.getDeltaSecond();
 					
 					if(sumFrontDelay < commonDelta)
-						sameM.setBackDelay(sumFrontDelay);
+						sameM.setBackDelay(commonDelta - sumFrontDelay);
 				}
 			}
 		}

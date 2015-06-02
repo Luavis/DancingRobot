@@ -65,14 +65,10 @@ public class Robot extends WaveFontObject implements DancingRobot, Animatable, D
 		
 	}
 	
-	double move = 0.0;
-	
 	@Override
 	public void animateNextFrame() {
 		if(!this.isDancing)
 			return;
-		
-		move+= 10;
 		
 		if(this.dance != null)
 			dance.getNextFrame();

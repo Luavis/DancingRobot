@@ -21,7 +21,6 @@ public class RobotDance extends Dance {
 		.parallel(0.2, new MovementTransition(target.headBranch).setX(0.3).setDeltaSecond(0.2)
 				)
 		.repeat(1)
-		.repeat(1)
 		.commit();
 		
 	}
