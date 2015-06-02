@@ -10,7 +10,7 @@ public class Animator {
 	private double currentFrame = 1;
 	
 	public Animator() {
-		this(30);
+		this(AnimationManager.FPS);
 	}
 	
 	public Animator(double fps) {
