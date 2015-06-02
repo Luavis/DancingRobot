@@ -31,20 +31,19 @@ public class Robot extends WaveFontObject implements DancingRobot, Animatable, D
 		
 		Hashtable<String, Shape3D> sceneHash = (Hashtable<String, Shape3D>)this.scene.getNamedObjects();
 	    
-	    this.branch = new BranchGroup(); // clear branch of parent
+	    this.branch = new SmartBranchGroup(new BranchGroup()); // clear branch of parent
 	    
 	    leftArmBranch = new SmartBranchGroup(this.getRobotPartBranch(sceneHash, Constants.ROBOT_LEFT_GROUP));
-	    branch.addChild(leftArmBranch .getSuperGroup());
+	    this.getBranchGroup().addChild(leftArmBranch .getSuperGroup());
 	    
 	    rightArmBranch = new SmartBranchGroup(this.getRobotPartBranch(sceneHash, Constants.ROBOT_RIGHT_GROUP));
-	    branch.addChild(rightArmBranch.getSuperGroup());
+	    this.getBranchGroup().addChild(rightArmBranch.getSuperGroup());
 	    
 	    headBranch = new SmartBranchGroup(this.getRobotPartBranch(sceneHash, Constants.ROBOT_HEAD_GROUP));
-	    branch.addChild(headBranch.getSuperGroup());
+	    this.getBranchGroup().addChild(headBranch.getSuperGroup());
 	    
 	    bodyBranch = new SmartBranchGroup(this.getRobotPartBranch(sceneHash, Constants.ROBOT_BODY_GROUP));
-	    branch.addChild(bodyBranch.getSuperGroup());
-	    
+	    this.getBranchGroup().addChild(bodyBranch.getSuperGroup());
 	}
 	
 	protected BranchGroup getRobotPartBranch(Hashtable<String, Shape3D> sceneHash, String groupName) {

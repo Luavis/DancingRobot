@@ -1,8 +1,6 @@
 import java.io.FileNotFoundException;
-import java.net.URL;
 
-import javax.media.j3d.BoundingSphere;
-import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Group;
 
 import com.sun.j3d.loaders.IncorrectFormatException;
 import com.sun.j3d.loaders.ParsingErrorException;
@@ -13,13 +11,13 @@ import com.sun.j3d.loaders.objectfile.ObjectFile;
 public class WaveFontObject { // .obj file object in 3d
 	
 	protected String filePath;
-	protected BranchGroup branch;
+	protected SmartBranchGroup branch;
 	protected Scene scene;
 	
 	public WaveFontObject(String filePath) {
 		this.filePath = filePath;
 		scene = this.createScene();
-	    branch = scene.getSceneGroup();
+	    branch = new SmartBranchGroup(scene.getSceneGroup());
 	}
 	
 	protected Scene createScene() {
@@ -49,7 +47,7 @@ public class WaveFontObject { // .obj file object in 3d
 	    return s;
 	}
 	
-	public BranchGroup getBranchGroup() {
-		return branch;
+	public Group getBranchGroup() {
+		return branch.getSuperGroup();
 	}
 }
