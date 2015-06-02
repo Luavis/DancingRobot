@@ -57,6 +57,10 @@ public class SmartBranchGroup {
 		return this.transitionAnimationGroup;
 	}
 	
+	public Group getWrapGroup() {
+		return this.wrapBranch;
+	}
+	
 	public Vector3d getRotationVector() {
 		return new Vector3d(this.rotXDegree, this.rotYDegree, this.rotZDegree);
 	}

@@ -88,7 +88,7 @@ public class MainCanvas extends Canvas3D {
 		Robot r = new Robot();
 		r.setDance(new RobotDance(r));
 		
-		this.addObject(r.getBranchGroup());
+		this.addObject(r.getSuperGroup());
 		this.registerAnimatableObjects(r);
 		
 		r.startDancing();

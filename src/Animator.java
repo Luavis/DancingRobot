@@ -122,10 +122,10 @@ public class Animator {
 				
 				for(Movement sameM: sameTypeMs) {
 					sameM.setFrontDelay(sumFrontDelay);
-					sumFrontDelay += sameM.totalTime();
+					sumFrontDelay += sameM.getDeltaSecond();
 					
 					if(sumFrontDelay < commonDelta)
-						sameM.setBackDelay(sumFrontDelay);
+						sameM.setBackDelay(commonDelta - sumFrontDelay);
 				}
 			}
 		}
