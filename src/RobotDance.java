@@ -21,12 +21,11 @@ public class RobotDance extends Dance {
 					 new MovementRotation(target.bodyBranch).setX(20),
 					 new MovementRotation(target.bodyBranch).setX(-20)
 				)
-		.parallel(0.3, new MovementRotation(target.branch).setZ(30))
 		.repeat(4)
 		.end()
-		.parallel(0.3, 
-					MovementRobot.putHandUp(target, 90),
-					new MovementRotation(target.branch).setZ(30)
+		.parallel(0.1, MovementRobot.putHandUp(target, 90)
+				)
+		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
 				)
 		.parallel(0.5, new MovementRotation(target.branch).setY(360),
 				  new MovementTransition(target.branch).setY(1),
@@ -34,6 +33,16 @@ public class RobotDance extends Dance {
 				)
 		.repeat(3, false)
 		.parallel(0.5, new MovementRotation(target.branch).setZ(-30)
+				)
+		.parallel(0.5, new MovementRotation(target.branch).setY(360)
+				)
+		.repeat(3, false)
+		.parallel(0.5, new MovementRotation(target.branch).setZ(120)
+				)
+		.parallel(0.3, new MovementRotation(target.branch).setY(360)
+				 )
+		.repeat(3, false)
+		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
 				)
 		.commit();
 	}
