@@ -31,6 +31,7 @@ public class MainCanvas extends Canvas3D {
 	private BoundingSphere bounds;
 	private ArrayList<Animatable> animatableObjects;
 	private TransformGroup worldGroup;
+	private double worldScale = 0.3;
 	
 	public MainCanvas(GraphicsConfiguration config) {
 		super(config);
@@ -93,14 +94,16 @@ public class MainCanvas extends Canvas3D {
 		this.addObject(r.getSuperGroup());
 		this.registerAnimatableObjects(r);
 		
-//		Android a = new Android();
-//		a.setDance(new AndroidDance(a));
+		Android a = new Android();
+		a.setDance(new AndroidDance(a));
 		
-//		this.addObject(a.getSuperGroup());
-//		this.registerAnimatableObjects(a);
+		this.addObject(a.getSuperGroup());
+		this.registerAnimatableObjects(a);
 		
+		a.branch.transition(-1.5, 0, 0);
+		r.branch.transition(1.5, 0, 0);
 		
-//		a.startDancing();
+		a.startDancing();
 		r.startDancing();
 	}
 	
@@ -130,7 +133,7 @@ public class MainCanvas extends Canvas3D {
 	    // appear in the scene.
 	    TransformGroup objScale = new TransformGroup();
 	    Transform3D t3d = new Transform3D();
-	    t3d.setScale(0.5);
+	    t3d.setScale(this.worldScale);
 	    
 	    objScale.setTransform(t3d);
 	    objRoot.addChild(objScale);

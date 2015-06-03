@@ -43,6 +43,7 @@ public class EvaDance extends RobotDance {
 		.repeat(3, false)
 		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
 				)
+		.parallel(0.2, MovementEva.putHandUp(target, -80))
 		.commit();
 	}
 

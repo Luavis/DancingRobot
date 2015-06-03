@@ -44,6 +44,7 @@ public class AndroidDance extends RobotDance {
 		.repeat(3, false)
 		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
 				)
+		.parallel(0.2, MovementAndroid.putHandUp(target, -80))
 		.commit();
 	}
 	

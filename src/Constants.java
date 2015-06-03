@@ -1,6 +1,6 @@
 
 public class Constants {
-	static public final int MAIN_WINDOW_WIDTH = 800;
+	static public final int MAIN_WINDOW_WIDTH = 1000;
 	static public final int MAIN_WINDOW_HEIGHT = 700;
 	
 	static public final String MAIN_WINDOW_TITLE = "Dancing robot";
