@@ -87,12 +87,20 @@ public class MainCanvas extends Canvas3D {
 	}
 	
 	public void addObjects() {
-		Android r = new Android();
-		r.setDance(new RobotDance(r));
+		Eva r = new Eva();
+		r.setDance(new EvaDance(r));
 		
 		this.addObject(r.getSuperGroup());
 		this.registerAnimatableObjects(r);
 		
+//		Android a = new Android();
+//		a.setDance(new AndroidDance(a));
+		
+//		this.addObject(a.getSuperGroup());
+//		this.registerAnimatableObjects(a);
+		
+		
+//		a.startDancing();
 		r.startDancing();
 	}
 	

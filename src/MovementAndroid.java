@@ -6,7 +6,7 @@ public class MovementAndroid {
 	static public final int RIGHT_HAND = 2;
 	
 	static public final double X_RATE = 0.01;
-	static public final double Y_RATE = -0.0044;
+	static public final double Y_RATE = -0.006;
 	
 	static public Movement[] putHandUp(Robot robot, double angle) {
 		
