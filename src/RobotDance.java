@@ -11,9 +11,10 @@ public class RobotDance extends Dance {
 		target
 		.getAnimator()
 		.start()
-		.parallel(0.5, 
-					new MovementTransition(target.headBranch).setX(0.4),
-					 new MovementTransition(target.headBranch).setX(-0.4)
+		.parallel(0.6, 
+//					new MovementTransition(target.headBranch).setX(1),
+//					 new MovementTransition(target.headBranch).setX(-1)
+					MovementRobot.putHandUp(target, 60)
 				)
 		.repeat(100)
 		.end()
