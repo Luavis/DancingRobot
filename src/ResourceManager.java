@@ -4,7 +4,7 @@ import java.io.File;
 public class ResourceManager {
 	
 	static private ResourceManager singleton;
-	private String bundlePath = "/User/Luavis/";
+	private String bundlePath = System.getProperty("user.dir") + File.separator;
 	
 	synchronized
 	static public ResourceManager getInstance() {
@@ -15,11 +15,19 @@ public class ResourceManager {
 	}
 	
 	public File getFile(String dirName, String fileName) {
-		return new File(bundlePath + this.pathJoin(dirName, fileName)); 
+		return new File(this.getPath(dirName, fileName)); 
 	}
 	
 	public File getFile(String fileName) {
 		return getFile("", fileName);
+	}
+	
+	public String getPath(String dirName, String fileName) {
+		return bundlePath + dirName + fileName; 
+	}
+	
+	public String getPath(String fileName) {
+		return getPath("", fileName);
 	}
 	
 	public static String pathJoin(final String ... pathElements)

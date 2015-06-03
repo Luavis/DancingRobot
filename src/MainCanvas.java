@@ -9,6 +9,7 @@ import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Group;
+import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -17,6 +18,7 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
+import com.sun.j3d.utils.image.TextureLoader;
 import com.sun.j3d.utils.universe.PlatformGeometry;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.ViewingPlatform;
@@ -152,8 +154,12 @@ public class MainCanvas extends Canvas3D {
 	    }
 	 
 	    // Set up the background
-	    Color3f bgColor = new Color3f(0.0f, 0.0f, 0.0f);
-	    Background bgNode = new Background(bgColor);
+	    String backgroundPath = ResourceManager.getInstance().getPath(Constants.BACKGROUND_SPRITE);
+	    TextureLoader backgroundTexture = new TextureLoader(backgroundPath, this);
+	    
+//	    Color3f bgColor = new Color3f(0.0f, 0.0f, 0.0f);
+	    Background bgNode = new Background(backgroundTexture.getImage());
+	    bgNode.setImageScaleMode(Background.SCALE_REPEAT);
 	    bgNode.setApplicationBounds(bounds);
 	    objRoot.addChild(bgNode);
 	 

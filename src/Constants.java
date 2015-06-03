@@ -4,6 +4,7 @@ public class Constants {
 	static public final int MAIN_WINDOW_HEIGHT = 700;
 	
 	static public final String MAIN_WINDOW_TITLE = "Dancing robot";
+	static public final String BACKGROUND_SPRITE = "background.jpg";
 	
 	static public final double FPS = 30.0f;
 	

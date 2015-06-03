@@ -1,5 +1,6 @@
 # Blender v2.73 (sub 0) OBJ File: 'eva.blend'
 # www.blender.org
+mtllib eva.mtl
 g head_Mesh.005
 v -0.022019 0.082831 0.008427
 v -0.022019 0.082831 0.008427
