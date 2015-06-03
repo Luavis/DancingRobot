@@ -4,6 +4,7 @@ import javax.vecmath.Vector3d;
 public class Movement implements Cloneable {
 	static public int ROTATION = 1;
 	static public int TRANS = 2;
+	static public int MULTIPLE = 3;
 	static private int DELTA_SECONDS_DEFAULT = -1;
 	
 	private int type;
@@ -146,9 +147,6 @@ public class Movement implements Cloneable {
 		}
 	}
 	
-//	public void setDelatRate(double rate) {
-//		
-//	}
 	
 	@Override
 	public Movement clone() {

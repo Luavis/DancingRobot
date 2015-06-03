@@ -21,8 +21,17 @@ public class RobotDance extends Dance {
 					 new MovementRotation(target.bodyBranch).setX(20),
 					 new MovementRotation(target.bodyBranch).setX(-20)
 				)
-		.repeat(4)
+		.repeat(2)
 		.end()
+		.parallel(0.3, 
+					MovementRobot.putHandUp(target, 90),
+					new MovementRotation(target.branch).setZ(30)
+				)
+		.parallel(0.5, new MovementRotation(target.branch).setY(360),
+				  new MovementTransition(target.branch).setY(1),
+				  new MovementTransition(target.branch).setY(-1)
+				)
+		.repeat(3, false)
 		.commit();
 	}
 	

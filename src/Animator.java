@@ -53,6 +53,39 @@ public class Animator {
 		return this;
 	}
 	
+	public Animator parallel(double commonVelocity, Movement[] arrayMs, Movement... ms) {
+		commonVelocities.add(commonVelocity);
+		ArrayList<Movement> mList = new ArrayList<Movement>();
+		
+		for(Movement m : ms)
+			mList.add(m);
+		
+		for(Movement m : arrayMs)
+			mList.add(m);
+		
+		movements.add(mList.toArray(arrayMs));
+		
+		return this;
+	}
+	
+	public Animator parallel(double commonVelocity, Movement[] arrayMs, Movement[] arrayMs2,  Movement... ms) {
+		commonVelocities.add(commonVelocity);
+		ArrayList<Movement> mList = new ArrayList<Movement>();
+		
+		for(Movement m : ms)
+			mList.add(m);
+		
+		for(Movement m : arrayMs2)
+			mList.add(m);
+		
+		for(Movement m : arrayMs)
+			mList.add(m);
+		
+		movements.add(mList.toArray(arrayMs));
+		
+		return this;
+	}
+	
 	public Animator repeat(int cnt) {
 		return this.repeat(cnt, true);
 	}
