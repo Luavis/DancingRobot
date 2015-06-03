@@ -11,7 +11,7 @@ public class RobotDance extends Dance {
 		target
 		.getAnimator()
 		.start()
-		.parallel(0.5, 
+		.parallel(0.2, 
 					new MovementTransition(target.headBranch).setX(0.1).setY(0.1),
 					 new MovementTransition(target.headBranch).setX(-0.1).setY(0.1),
 					 new MovementTransition(target.leftArmBranch).setX(0.7).setY(-0.3),
@@ -21,7 +21,8 @@ public class RobotDance extends Dance {
 					 new MovementRotation(target.bodyBranch).setX(20),
 					 new MovementRotation(target.bodyBranch).setX(-20)
 				)
-		.repeat(2)
+		.parallel(0.3, new MovementRotation(target.branch).setZ(30))
+		.repeat(4)
 		.end()
 		.parallel(0.3, 
 					MovementRobot.putHandUp(target, 90),
@@ -32,6 +33,8 @@ public class RobotDance extends Dance {
 				  new MovementTransition(target.branch).setY(-1)
 				)
 		.repeat(3, false)
+		.parallel(0.5, new MovementRotation(target.branch).setZ(-30)
+				)
 		.commit();
 	}
 	
