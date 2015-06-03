@@ -1,28 +1,20 @@
 # Blender MTL File: 'eva.blend'
-# Material Count: 3
+# Material Count: 1
 
-newmtl Material
-Ns 96.078431
-Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
+newmtl evaWhite
+# map_Kd white_mat.png
+Ns 80.000000
+Ka 5.000000 5.000000 5.000000
+Kd 5.000000 5.000000 5.000000
+Ks 8.000000 8.000000 8.000000
 Ni 1.000000
-d 1.000000
 illum 2
 
-newmtl Material.008
-Ns 96.078431
+newmtl evaHead
+map_Kd head.png
+Ns 128.000000
 Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 5.000000 5.000000 5.000000
 Ni 1.000000
-d 1.000000
-illum 2
-
-newmtl None
-Ns 0
-Ka 0.000000 0.000000 0.000000
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
 illum 2
