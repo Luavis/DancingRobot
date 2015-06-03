@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 
-
-public class MovementRobot {
+public class MovementAndroid {
 	
 	static public final int LEFT_HAND = 1;
 	static public final int RIGHT_HAND = 2;
 	
-	static public final double X_RATE = 0.0072222222;
-	static public final double Y_RATE = -0.0033333333;
+	static public final double X_RATE = 0.01;
+	static public final double Y_RATE = -0.0044;
 	
 	static public Movement[] putHandUp(Robot robot, double angle) {
 		

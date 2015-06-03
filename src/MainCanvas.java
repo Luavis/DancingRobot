@@ -87,7 +87,7 @@ public class MainCanvas extends Canvas3D {
 	}
 	
 	public void addObjects() {
-		Robot r = new Robot();
+		Android r = new Android();
 		r.setDance(new RobotDance(r));
 		
 		this.addObject(r.getSuperGroup());
