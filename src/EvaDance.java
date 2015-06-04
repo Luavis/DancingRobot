@@ -7,39 +7,49 @@ public class EvaDance extends RobotDance {
 	
 	@Override
 	public void initDance() {
+		target.updateOriginVector();
+		
 		target
 		.getAnimator()
-		.start()
-		.parallel(0.2, MovementEva.putHandUp(target, 90),
-					new MovementTransition(target.headBranch).setX(0.1).setY(0.1),
-					 new MovementTransition(target.headBranch).setX(-0.1).setY(0.1),
-					 new MovementRotation(target.bodyBranch).setX(20),
-					 new MovementRotation(target.bodyBranch).setX(-20)
-				)
-		.repeat(4)
-		.end()
+//		.start()
+//		.parallel(0.2, MovementEva.putHandUp(target, 90),
+//					new MovementTransition(target.headBranch).setX(0.1).setY(0.1),
+//					 new MovementTransition(target.headBranch).setX(-0.1).setY(0.1),
+//					 new MovementRotation(target.bodyBranch).setX(20),
+//					 new MovementRotation(target.bodyBranch).setX(-20)
+//				)
+//		.repeat(4)
+//		.end()
 		.parallel(0.1, MovementEva.putHandUp(target, 90)
 				)
-		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
-				)
-		.parallel(0.5, new MovementRotation(target.branch).setY(360),
-				  new MovementTransition(target.branch).setY(1),
-				  new MovementTransition(target.branch).setY(-1)
-				)
-		.repeat(3, false)
-		.parallel(0.5, new MovementRotation(target.branch).setZ(-30)
-				)
-		.parallel(0.5, new MovementRotation(target.branch).setY(360)
-				)
-		.repeat(3, false)
-		.parallel(0.5, new MovementRotation(target.branch).setZ(120)
-				)
-		.parallel(0.3, new MovementRotation(target.branch).setY(360)
-				 )
-		.repeat(3, false)
-		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
-				)
-		.parallel(0.2, MovementEva.putHandUp(target, -80))
+//		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
+//				)
+//		.parallel(0.5, new MovementRotation(target.branch).setY(360),
+//				  new MovementTransition(target.branch).setY(1),
+//				  new MovementTransition(target.branch).setY(-1)
+//				)
+//		.repeat(3, false)
+//		.parallel(0.5, new MovementRotation(target.branch).setZ(-30)
+//				)
+//		.parallel(0.5, new MovementRotation(target.branch).setY(360)
+//				)
+//		.repeat(3, false)
+//		.parallel(0.5, new MovementRotation(target.branch).setZ(120)
+//				)
+//		.parallel(0.3, new MovementRotation(target.branch).setY(360)
+//				 )
+//		.repeat(3, false)
+//		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
+//				)
+//		.parallel(0.2, MovementEva.putHandUp(target, -80))
+		.parallel(1, new MovementLazy() {
+			
+			@Override
+			public Movement[] getMovement() {
+				// TODO Auto-generated method stub
+				return target.restoreMovements();
+			}
+		})
 		.commit();
 	}
 

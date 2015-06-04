@@ -1,6 +1,5 @@
-import java.awt.EventQueue;
-import java.lang.reflect.InvocationTargetException;
 
+import java.awt.EventQueue;
 
 public class AnimationManager {
 	static public double FPS = Constants.FPS;

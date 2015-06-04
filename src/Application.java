@@ -1,9 +1,7 @@
+
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-
 import com.sun.j3d.utils.universe.SimpleUniverse;
 
 public class Application {

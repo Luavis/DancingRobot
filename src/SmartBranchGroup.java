@@ -1,3 +1,4 @@
+
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Group;
 import javax.media.j3d.Transform3D;
@@ -7,11 +8,12 @@ import javax.vecmath.Vector3d;
 
 public class SmartBranchGroup {
 	
-	private double rotXDegree = 0.0f;
-	private double rotYDegree = 0.0f;
-	private double rotZDegree = 0.0f;
-	private Vector3d transitionVector = new Vector3d();
+//	private double rotXDegree = 0.0f;
+//	private double rotYDegree = 0.0f;
+//	private double rotZDegree = 0.0f;
 	
+	private Vector3d transitionVector = new Vector3d();
+	private Vector3d rotationVector = new Vector3d(0, 0, 0);
 	
 	private BranchGroup wrapBranch = null;
 	private TransformGroup transitionAnimationGroup = null;
@@ -23,6 +25,10 @@ public class SmartBranchGroup {
 	private Transform3D rotationY = null;
 	private Transform3D rotationZ = null;
 	private Transform3D transition = null;
+	
+	private PositionVector originPVector = null;
+	
+	private PositionVector pVector = null;
 	
 	public SmartBranchGroup(BranchGroup branch) {
 		this.wrapBranch = branch;
@@ -42,6 +48,9 @@ public class SmartBranchGroup {
 		this.rotationY = new Transform3D();
 		this.rotationZ = new Transform3D();
 		
+		this.pVector = new PositionVector(transitionVector, rotationVector);
+		this.updateOriginPosition();
+		
 		transitionAnimationGroup.setTransform(transition);
 		rotationXAnimationGroup.setTransform(rotationX);
 		rotationYAnimationGroup.setTransform(rotationY);
@@ -57,38 +66,49 @@ public class SmartBranchGroup {
 		return this.transitionAnimationGroup;
 	}
 	
+	public void updateOriginPosition() {
+		this.originPVector = new PositionVector(this.getTransitionVector(), this.getRotationVector());
+	}
+	
+	public PositionVector substractByOrigin() {
+		return this.pVector.substractPoition(this.originPVector);
+	}
+	
 	public Group getWrapGroup() {
 		return this.wrapBranch;
 	}
 	
 	public Vector3d getRotationVector() {
-		return new Vector3d(this.rotXDegree, this.rotYDegree, this.rotZDegree);
+		return (Vector3d)rotationVector.clone();
 	}
 	
 	public Vector3d	getTransitionVector() {
-		return this.transitionVector;
+		return (Vector3d)this.transitionVector.clone();
 	}
 	
 	public void rotationX(double degree) {
-		this.rotXDegree = degree;
-		rotationX.rotX(this.rotXDegree / 180.0f * Math.PI);
+		this.rotationVector.x = degree;
+		rotationX.rotX(this.rotationVector.x / 180.0f * Math.PI);
 		rotationXAnimationGroup.setTransform(rotationX);
 	}
 	
 	public void rotationY(double degree) {
-		this.rotYDegree = degree;
-		rotationY.rotY(this.rotYDegree / 180.0f * Math.PI);
+		this.rotationVector.y = degree;
+		rotationY.rotY(this.rotationVector.y / 180.0f * Math.PI);
 		rotationYAnimationGroup.setTransform(rotationY);
 	}
 	
 	public void rotationZ(double degree) {
-		this.rotZDegree = degree;
-		rotationZ.rotZ(this.rotZDegree / 180.0f * Math.PI);
+		this.rotationVector.z = degree;
+		rotationZ.rotZ(this.rotationVector.z / 180.0f * Math.PI);
 		rotationZAnimationGroup.setTransform(rotationZ);
 	}
 	
 	public void transition(double x, double y, double z) {
-		this.transitionVector = new Vector3d(x, y, z);
+		this.transitionVector.x = x;
+		this.transitionVector.y = y;
+		this.transitionVector.z = z;
+		
 		this.transition.setTranslation(transitionVector);
 		transitionAnimationGroup.setTransform(transition);
 	}

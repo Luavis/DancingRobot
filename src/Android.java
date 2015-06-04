@@ -1,5 +1,5 @@
-import java.util.Hashtable;
 
+import java.util.Hashtable;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Shape3D;
 

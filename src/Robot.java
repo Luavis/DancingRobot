@@ -1,12 +1,9 @@
-import java.net.URL;
+
 import java.util.Hashtable;
 
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
-import javax.media.j3d.TransformGroup;
-import javax.vecmath.Matrix3d;
-import javax.vecmath.Vector3d;
 
 
 public class Robot extends WaveFontObject implements DancingRobot, Animatable, Danceable {
@@ -32,6 +29,38 @@ public class Robot extends WaveFontObject implements DancingRobot, Animatable, D
 		branchGroup.addChild(shape.cloneNode(true));
 	    
 	    return branchGroup;
+	}
+	
+	public void updateOriginVector() {
+		headBranch.updateOriginPosition();
+		rightArmBranch.updateOriginPosition();
+		leftArmBranch.updateOriginPosition();
+		bodyBranch.updateOriginPosition();
+		branch.updateOriginPosition();
+	}
+	
+	public Movement[] restoreMovements() {
+		PositionVector headDelta = headBranch.substractByOrigin();
+		PositionVector rightArmDelta = rightArmBranch.substractByOrigin();
+		PositionVector leftArmDelta = leftArmBranch.substractByOrigin();
+		PositionVector bodyDelta = bodyBranch.substractByOrigin();
+		PositionVector totlaDelta = branch.substractByOrigin();
+		
+		Movement[] ret = {
+			new MovementRotation(headBranch, headDelta.rotationVector),
+			new MovementRotation(rightArmBranch, rightArmDelta.rotationVector),
+			new MovementRotation(leftArmBranch, leftArmDelta.rotationVector),
+			new MovementRotation(bodyBranch, bodyDelta.rotationVector),
+			new MovementRotation(branch, totlaDelta.rotationVector),
+			
+			new MovementTransition(headBranch, headDelta.transitionVector),
+			new MovementTransition(rightArmBranch, headDelta.transitionVector),
+			new MovementTransition(leftArmBranch, headDelta.transitionVector),
+			new MovementTransition(bodyBranch, headDelta.transitionVector),
+			new MovementTransition(branch, headDelta.transitionVector),
+		};
+		
+		return ret;
 	}
 	
 	@Override

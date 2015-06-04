@@ -1,10 +1,10 @@
+
 import java.util.ArrayList;
 import java.util.Stack;
 
-
 public class Animator {
 	
-	private ArrayList<Movement[]> movements = new ArrayList<Movement[]>();
+	private ArrayList<AbstractMovement[]> movements = new ArrayList<AbstractMovement[]>();
 	private int currentMoveIndex;
 	private ArrayList<Double> commonVelocities = new ArrayList<Double>();
 	private double fps = 30.0f;
@@ -12,6 +12,8 @@ public class Animator {
 	
 	private boolean isStartedPoint = false;
 	private Stack<Integer> startIndexesStack = new Stack<Integer>();
+	
+	private boolean needReset = false;
 	
 	public Animator() {
 		this(AnimationManager.FPS);
@@ -46,21 +48,21 @@ public class Animator {
 		return this;
 	}
 	
-	public Animator parallel(double commonVelocity, Movement... ms) {
+	public Animator parallel(double commonVelocity, AbstractMovement... ms) {
 		commonVelocities.add(commonVelocity);
 		movements.add(ms);
 		
 		return this;
 	}
 	
-	public Animator parallel(double commonVelocity, Movement[] arrayMs, Movement... ms) {
+	public Animator parallel(double commonVelocity, AbstractMovement[] arrayMs, AbstractMovement... ms) {
 		commonVelocities.add(commonVelocity);
-		ArrayList<Movement> mList = new ArrayList<Movement>();
+		ArrayList<AbstractMovement> mList = new ArrayList<AbstractMovement>();
 		
-		for(Movement m : ms)
+		for(AbstractMovement m : ms)
 			mList.add(m);
 		
-		for(Movement m : arrayMs)
+		for(AbstractMovement m : arrayMs)
 			mList.add(m);
 		
 		movements.add(mList.toArray(arrayMs));
@@ -68,17 +70,17 @@ public class Animator {
 		return this;
 	}
 	
-	public Animator parallel(double commonVelocity, Movement[] arrayMs, Movement[] arrayMs2,  Movement... ms) {
+	public Animator parallel(double commonVelocity, AbstractMovement[] arrayMs, AbstractMovement[] arrayMs2,  AbstractMovement... ms) {
 		commonVelocities.add(commonVelocity);
-		ArrayList<Movement> mList = new ArrayList<Movement>();
+		ArrayList<AbstractMovement> mList = new ArrayList<AbstractMovement>();
 		
-		for(Movement m : ms)
+		for(AbstractMovement m : ms)
 			mList.add(m);
 		
-		for(Movement m : arrayMs2)
+		for(AbstractMovement m : arrayMs2)
 			mList.add(m);
 		
-		for(Movement m : arrayMs)
+		for(AbstractMovement m : arrayMs)
 			mList.add(m);
 		
 		movements.add(mList.toArray(arrayMs));
@@ -105,7 +107,7 @@ public class Animator {
 		if(!reverse) { // get last
 			if(!isStartedPoint) {
 				double commonVelocity = commonVelocities.get(commonVelocities.size() - 1);
-				Movement[] ms = movements.get(movements.size() - 1);
+				AbstractMovement[] ms = movements.get(movements.size() - 1);
 				
 				for(int i = 0; i < cnt; i++) {
 					commonVelocities.add(commonVelocity);
@@ -119,7 +121,7 @@ public class Animator {
 				
 				for(int j = 0; j < cnt; j++) {
 					for(int i = this.getLastStartIndex(); i <= endPoint; i++) {
-						Movement[] ms = movements.get(i);
+						AbstractMovement[] ms = movements.get(i);
 						
 						commonVelocities.add(originDelta);
 						movements.add(ms);
@@ -139,10 +141,10 @@ public class Animator {
 				else {
 					
 					for(int j = this.getLastStartIndex(); j <= endPoint; j++) {
-						Movement[] ms = movements.get(j);
+						AbstractMovement[] ms = movements.get(j);
 						int msSize = ms.length;
 						
-						Movement[] rMs = new Movement[msSize];
+						AbstractMovement[] rMs = new AbstractMovement[msSize];
 						
 						for(int k = 0; k < msSize; k++) {
 							if(i % 2 == 0)
@@ -167,10 +169,10 @@ public class Animator {
 		double originDelta = commonVelocities.get(commonVelocities.size() - 1);
 		
 		if(!isStartedPoint) {
-			Movement[] ms = movements.get(movements.size() - 1);
+			AbstractMovement[] ms = movements.get(movements.size() - 1);
 			int msSize = ms.length;
 			
-			Movement[] rMs = new Movement[msSize];
+			AbstractMovement[] rMs = new AbstractMovement[msSize];
 			
 			for(int i = 0; i < msSize; i++) {
 				rMs[i] = ms[i].reverseClone();
@@ -183,10 +185,10 @@ public class Animator {
 			int endPoint = this.getCurrentEndIndex();
 			
 			for(int i = this.getLastStartIndex(); i < endPoint; i++) {
-				Movement[] ms = movements.get(movements.size() - 1);
+				AbstractMovement[] ms = movements.get(movements.size() - 1);
 				int msSize = ms.length;
 				
-				Movement[] rMs = new Movement[msSize];
+				AbstractMovement[] rMs = new AbstractMovement[msSize];
 				
 				for(int j = 0; j < msSize; j++) {
 					rMs[j] = ms[j].reverseClone();
@@ -201,59 +203,14 @@ public class Animator {
 	}
 	
 	public void commit() {
-		
+		this.commit(true);
+	}
+	
+	public void commit(boolean reset) {
+		needReset  = reset;
 		// set none velocity
 		for(int i = 0; i < movements.size(); i++) {
-			Movement[] ms = movements.get(i);
-			ArrayList<Movement> processedTypeMovements = new ArrayList<Movement>();
 			
-			for(Movement m : ms) {
-				
-				int deltaSum = 0;
-				
-				boolean isProcessed = false; 
-				
-				for( Movement p_m : processedTypeMovements) {
-					if(m.isSameType(p_m))
-						isProcessed = true;
-				}
-				
-				if(isProcessed) // ban multiple
-					continue;
-				
-				processedTypeMovements.add(m);
-				
-				ArrayList<Movement> noneVelocitySameTypeMs = new ArrayList<Movement>();
-				ArrayList<Movement> sameTypeMs = new ArrayList<Movement>();
-				
-				for(Movement otherM : ms) {
-					
-					if(m.isSameType(otherM)) {
-						if(!otherM.hasDeltaSecond()) {
-							noneVelocitySameTypeMs.add(otherM);
-						}
-						else
-							deltaSum += m.getDeltaSecond();
-						
-						sameTypeMs.add(otherM);
-					}
-				}
-				
-				for(Movement other_ms : noneVelocitySameTypeMs) {
-					other_ms.setDeltaSecond((this.commonVelocities.get(i) - (double)deltaSum) / (double)noneVelocitySameTypeMs.size());
-				}
-				
-				double sumFrontDelay = 0.0f;
-				double commonDelta = this.commonVelocities.get(i);
-				
-				for(Movement sameM: sameTypeMs) {
-					sameM.setFrontDelay(sumFrontDelay);
-					sumFrontDelay += sameM.getDeltaSecond();
-					
-					if(sumFrontDelay < commonDelta)
-						sameM.setBackDelay(commonDelta - sumFrontDelay);
-				}
-			}
 		}
 		
 		currentMoveIndex = 0;
@@ -268,7 +225,7 @@ public class Animator {
 			return;
 		}
 		
-		Movement[] ms = this.movements.get(currentMoveIndex);
+		AbstractMovement[] ms = this.movements.get(currentMoveIndex);
 		double commonVelocity = this.commonVelocities.get(currentMoveIndex);
 		
 		for(int i = 0; i < ms.length; i++) {
@@ -284,9 +241,9 @@ public class Animator {
 			if(this.movements.size() <= this.currentMoveIndex)
 				return;
 			
-			Movement[] newMs = this.movements.get(currentMoveIndex);
+			AbstractMovement[] newMs = this.movements.get(currentMoveIndex);
 			for(int i = 0; i < newMs.length; i++) {
-				newMs[i].reloadOriginVector();
+				newMs[i].readyAnimation();
 			}
 		}
 	}

@@ -1,25 +1,10 @@
+
 import javax.vecmath.Vector3d;
 
-
-public class Movement implements Cloneable {
-	static public int ROTATION = 1;
-	static public int TRANS = 2;
-	static public int MULTIPLE = 3;
-	static private int DELTA_SECONDS_DEFAULT = -1;
-	
-	private int type;
+public class Movement extends AbstractMovement {
 	private Vector3d originVec;
 	private Vector3d vec;
 	private SmartBranchGroup smtTarget;
-	private double deltaSeconds = DELTA_SECONDS_DEFAULT; // cleared by animator soon
-	
-	private double frontDelay = 0.0f;
-	private double backDelay = 0.0f;
-	
-	private double frontDelayRate = 0.0f;
-	private double backDelayRate = 0.0f;
-	
-//	private double deltaRate = 1.0f;
 	
 	public Movement(SmartBranchGroup smtTarget, int type) {
 		this(smtTarget, type, new Vector3d(), -1);
@@ -52,30 +37,8 @@ public class Movement implements Cloneable {
 		}
 	}
 	
-	public double getFrontDelay() {
-		return this.frontDelay;
-	}
-	
-	public double getBackDelay() {
-		return backDelay;
-	}
-	
-	public void setFrontDelay(double frontDelay) {
-		this.frontDelay = frontDelay;
-		this.frontDelayRate = this.frontDelay / this.totalTime();
-	}
-	
-	public void setBackDelay(double backDelay) {
-		this.backDelay = backDelay;
-		this.backDelayRate = this.backDelay / this.totalTime();
-	}
-	
 	public Vector3d getOriginVector() {
 		return originVec;
-	}
-	
-	public int getType() {
-		return type;
 	}
 	
 	public SmartBranchGroup getSmtTarget() {
@@ -102,27 +65,16 @@ public class Movement implements Cloneable {
 		return this;
 	}
 	
-	public Movement setDeltaSecond(double velocity) {
-		this.deltaSeconds = velocity;
-		return this;
-	}
-	
-	public double getDeltaSecond() {
-		return deltaSeconds;
-	}
-	
-	public boolean hasDeltaSecond() {
-		return (deltaSeconds != DELTA_SECONDS_DEFAULT);
-	}
-	
 	public boolean isSameType(Movement m) {
 		return (this.smtTarget != null && this.smtTarget == m.smtTarget && this.type == m.type);
 	}
 	
-	public double totalTime() {
-		return this.deltaSeconds + this.frontDelay + this.backDelay;
+	@Override
+	public void readyAnimation() {
+		this.reloadOriginVector();
 	}
 	
+	@Override
 	public void move(double moveRate) {
 		
 		if(this.frontDelayRate > moveRate) { 
@@ -147,7 +99,6 @@ public class Movement implements Cloneable {
 		}
 	}
 	
-	
 	@Override
 	public Movement clone() {
 		
@@ -157,6 +108,7 @@ public class Movement implements Cloneable {
 		return newM;
 	}
 	
+	@Override
 	public Movement reverseClone() {
 		
 		Movement newM = new Movement(this.smtTarget, this.type);

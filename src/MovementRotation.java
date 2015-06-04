@@ -1,5 +1,5 @@
-import javax.vecmath.Vector3d;
 
+import javax.vecmath.Vector3d;
 
 public class MovementRotation extends Movement {
 	

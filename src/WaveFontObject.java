@@ -1,3 +1,4 @@
+
 import java.io.FileNotFoundException;
 
 import javax.media.j3d.Group;
@@ -22,11 +23,6 @@ public class WaveFontObject { // .obj file object in 3d
 	
 	protected Scene createScene() {
 		int flags = ObjectFile.RESIZE;
-		
-//		if (!noTriangulate)
-//	      flags |= ObjectFile.TRIANGULATE;
-//	    if (!noStripify)
-//	      flags |= ObjectFile.STRIPIFY;
 		
 		ObjectFile f = new ObjectFile(flags, 0);
 	    Scene s = null;
