@@ -9,15 +9,15 @@ public class EvaDance extends RobotDance {
 	public void initDance() {
 		target
 		.getAnimator()
-		.start()
-		.parallel(0.2, MovementEva.putHandUp(target, 90),
-					new MovementTransition(target.headBranch).setX(0.1).setY(0.1),
-					 new MovementTransition(target.headBranch).setX(-0.1).setY(0.1),
-					 new MovementRotation(target.bodyBranch).setX(20),
-					 new MovementRotation(target.bodyBranch).setX(-20)
-				)
-		.repeat(4)
-		.end()
+//		.start()
+//		.parallel(0.2, MovementEva.putHandUp(target, 90),
+//					new MovementTransition(target.headBranch).setX(0.1).setY(0.1),
+//					 new MovementTransition(target.headBranch).setX(-0.1).setY(0.1),
+//					 new MovementRotation(target.bodyBranch).setX(20),
+//					 new MovementRotation(target.bodyBranch).setX(-20)
+//				)
+//		.repeat(4)
+//		.end()
 		.parallel(0.1, MovementEva.putHandUp(target, 90)
 				)
 		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
