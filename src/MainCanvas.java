@@ -30,8 +30,9 @@ public class MainCanvas extends Canvas3D {
 	private SimpleUniverse u;
 	private BoundingSphere bounds;
 	private ArrayList<Animatable> animatableObjects;
-	private TransformGroup worldGroup;
+	private BranchGroup worldGroup;
 	private double worldScale = 0.3;
+	private ArrayList<Robot> robots = new ArrayList<Robot>();
 	
 	public MainCanvas(GraphicsConfiguration config) {
 		super(config);
@@ -87,27 +88,39 @@ public class MainCanvas extends Canvas3D {
 	    u.addBranchGraph(scene);
 	}
 	
-	public void addObjects() {
-		Eva r = new Eva();
-		r.setDance(new EvaDance(r));
-		
-		this.addObject(r.getSuperGroup());
-		this.registerAnimatableObjects(r);
-		
-		Android a = new Android();
-		a.setDance(new AndroidDance(a));
-		
-		this.addObject(a.getSuperGroup());
-		this.registerAnimatableObjects(a);
-		
-		a.branch.transition(-1.5, 0, 0);
-		r.branch.transition(1.5, 0, 0);
-		
-		a.startDancing();
-		r.startDancing();
+//	public void addObjects() {
+//		Eva r = new Eva();
+//		r.setDance(new EvaDance(r));
+//		
+//		this.addObject(r.getSuperGroup());
+//		this.registerAnimatableObjects(r);
+//		
+//		Android a = new Android();
+//		a.setDance(new AndroidDance(a));
+//		
+//		this.addObject(a.getSuperGroup());
+//		this.registerAnimatableObjects(a);
+//		
+//		a.branch.transition(-1.5, 0, 0);
+//		r.branch.transition(1.5, 0, 0);
+//		
+//		a.startDancing();
+//		r.startDancing();
+//	}
+	
+	public void startRobotsDance() {
+		for(int i = 0; i<robots.size();i++)
+		{
+			robots.get(i).startDancing();
+		}
 	}
 	
-	public void addObject(Group object) {
+	public void addRobot(Robot r) {
+		robots.add(r);
+		this.addObject(r.getSuperGroup());
+	}
+	
+	public void addObject(BranchGroup object) {
 		worldGroup.addChild(object);
 	}
 	
@@ -143,12 +156,19 @@ public class MainCanvas extends Canvas3D {
 	    // our behavior code can modify it at runtime. Add it to the
 	    // root of the subgraph.
 	    
-	    worldGroup = new TransformGroup();
-	    worldGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-	    worldGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-	    objScale.addChild(worldGroup);
-	 
-	    this.addObjects();
+	    TransformGroup transformGroup = new TransformGroup();
+	    transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    
+	    worldGroup = new BranchGroup();
+	    worldGroup.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+	    worldGroup.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	    worldGroup.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+	    worldGroup.setCapability(BranchGroup.ALLOW_DETACH);
+	    
+	    transformGroup.addChild(worldGroup);
+	    
+	    objScale.addChild(transformGroup);	 
 	    
 	    bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
 	 
@@ -158,10 +178,10 @@ public class MainCanvas extends Canvas3D {
 	          4000, 0, 0, 0, 0, 0);
 	 
 	      RotationInterpolator rotator = new RotationInterpolator(
-	          rotationAlpha, worldGroup, yAxis, 0.0f,
+	          rotationAlpha, transformGroup, yAxis, 0.0f,
 	          (float) Math.PI * 2.0f);
 	      rotator.setSchedulingBounds(bounds);
-	      worldGroup.addChild(rotator);
+	      transformGroup.addChild(rotator);
 	    }
 	 
 	    // Set up the background

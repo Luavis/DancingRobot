@@ -10,8 +10,10 @@ public class SmartBranchGroup {
 	private double rotXDegree = 0.0f;
 	private double rotYDegree = 0.0f;
 	private double rotZDegree = 0.0f;
-	private Vector3d transitionVector = new Vector3d();
 	
+	private BranchGroup superBranch = new BranchGroup();
+	
+	private Vector3d transitionVector = new Vector3d();
 	
 	private BranchGroup wrapBranch = null;
 	private TransformGroup transitionAnimationGroup = null;
@@ -51,10 +53,12 @@ public class SmartBranchGroup {
 		this.rotationXAnimationGroup.addChild(rotationYAnimationGroup);
 		this.rotationYAnimationGroup.addChild(rotationZAnimationGroup);
 		this.rotationZAnimationGroup.addChild(wrapBranch);
+		
+		this.superBranch.addChild(this.transitionAnimationGroup);
 	}
 	
-	public Group getSuperGroup() {
-		return this.transitionAnimationGroup;
+	public BranchGroup getSuperGroup() {
+		return this.superBranch;
 	}
 	
 	public Group getWrapGroup() {

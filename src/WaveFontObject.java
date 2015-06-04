@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 
+import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Group;
 
 import com.sun.j3d.loaders.IncorrectFormatException;
@@ -47,7 +48,7 @@ public class WaveFontObject { // .obj file object in 3d
 	    return s;
 	}
 	
-	public Group getSuperGroup() { 
+	public BranchGroup getSuperGroup() { 
 		return branch.getSuperGroup();
 	}
 	
