@@ -10,6 +10,8 @@ public class Animator {
 	private double fps = 30.0f;
 	private double currentFrame = 1;
 	
+	private boolean infRepeat = true;
+	
 	private boolean isStartedPoint = false;
 	private Stack<Integer> startIndexesStack = new Stack<Integer>();
 	
@@ -43,6 +45,11 @@ public class Animator {
 			isStartedPoint = false;
 		}
 		
+		return this;
+	}
+	
+	public Animator setInfRepeat(boolean infRepeat) {
+		this.infRepeat = infRepeat;
 		return this;
 	}
 	
@@ -265,6 +272,7 @@ public class Animator {
 			return;
 		}
 		else if(this.movements.size() <= this.currentMoveIndex) { //out of index
+			
 			return;
 		}
 		

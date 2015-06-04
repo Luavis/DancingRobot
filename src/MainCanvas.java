@@ -33,6 +33,7 @@ public class MainCanvas extends Canvas3D {
 	private BranchGroup worldGroup;
 	private double worldScale = 0.3;
 	private ArrayList<Robot> robots = new ArrayList<Robot>();
+	private boolean isDancingMode = false;
 	
 	public MainCanvas(GraphicsConfiguration config) {
 		super(config);
@@ -88,6 +89,10 @@ public class MainCanvas extends Canvas3D {
 	    u.addBranchGraph(scene);
 	}
 	
+	public boolean isDancingMode() {
+		return this.isDancingMode;
+	}
+	
 //	public void addObjects() {
 //		Eva r = new Eva();
 //		r.setDance(new EvaDance(r));
@@ -109,15 +114,30 @@ public class MainCanvas extends Canvas3D {
 //	}
 	
 	public void startRobotsDance() {
+		this.isDancingMode = true;
+		
 		for(int i = 0; i<robots.size();i++)
 		{
 			robots.get(i).startDancing();
 		}
 	}
 	
+	public void stopRobotsDance() {
+		this.isDancingMode = false;
+		
+		for(int i = 0; i<robots.size();i++)
+		{
+			robots.get(i).stopDancing();
+		}
+	}
+	
 	public void addRobot(Robot r) {
 		robots.add(r);
 		this.addObject(r.getSuperGroup());
+		
+		if(isDancingMode) {
+			r.startDancing();
+		}
 	}
 	
 	public void addObject(BranchGroup object) {

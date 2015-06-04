@@ -18,6 +18,7 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
 	private MainCanvas stage;
 	private double andriodx = -1.5, Evax = 1.5;
+	private JButton btnNewButton_3;
 	
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,10 +38,17 @@ public class MainWindow extends JFrame {
 		contentPane.add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JButton btnNewButton_3 = new JButton("Start dance");
+		btnNewButton_3 = new JButton(Constants.START_BUTTON_TITLE);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stage.startRobotsDance();
+				if(stage.isDancingMode()) {
+					stage.stopRobotsDance();
+					btnNewButton_3.setText(Constants.START_BUTTON_TITLE);
+				}
+				else {
+					stage.startRobotsDance();
+					btnNewButton_3.setText(Constants.STOP_BUTTON_TITLE);
+				}
 			}
 		});
 		
@@ -77,9 +85,6 @@ public class MainWindow extends JFrame {
 			}
 		});
 		panel.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Stop dance");
-		panel.add(btnNewButton_1);
 		
 		JButton btnNewButton_4 = new JButton("Start Music");
 		panel.add(btnNewButton_4);
