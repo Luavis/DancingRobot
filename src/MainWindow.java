@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 
 public class MainWindow extends JFrame {
@@ -36,25 +38,28 @@ public class MainWindow extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		panel.setLayout(new GridLayout(1, 1, 150, 150));
 		
-		btnNewButton_3 = new JButton(Constants.START_BUTTON_TITLE);
+		btnNewButton_3 = new JButton(new ImageIcon("C:\\Users\\wonyeon\\Desktop\\DancingRobot\\playdance.PNG"));
+		btnNewButton_3.setBackground(Color.WHITE);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(stage.isDancingMode()) {
 					stage.stopRobotsDance();
-					btnNewButton_3.setText(Constants.START_BUTTON_TITLE);
+					btnNewButton_3.setIcon(new ImageIcon("C:\\Users\\wonyeon\\Desktop\\DancingRobot\\playdance.PNG"));
 				}
 				else {
 					stage.startRobotsDance();
-					btnNewButton_3.setText(Constants.STOP_BUTTON_TITLE);
+					btnNewButton_3.setIcon(new ImageIcon("C:\\Users\\wonyeon\\Desktop\\DancingRobot\\stopdance.PNG"));
 				}
 			}
 		});
 		
 		panel.add(btnNewButton_3);
 		
-		JButton btnNewButton_2 = new JButton("Add Android");
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setIcon(new ImageIcon("C:\\Users\\wonyeon\\Desktop\\DancingRobot\\android.PNG"));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Android a = new Android();
@@ -70,7 +75,9 @@ public class MainWindow extends JFrame {
 		});
 		panel.add(btnNewButton_2);
 		
-		JButton btnNewButton = new JButton("Add eva");
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\wonyeon\\Desktop\\DancingRobot\\eva.PNG"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Eva a = new Eva();
