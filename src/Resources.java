@@ -9,7 +9,10 @@ public class Resources {
 	static public String evaRobotPath = bundleString + File.separator + Constants.EVA_ROBOT_OBJ_FILE;
 	static public String androidRobotPath = bundleString + File.separator + Constants.ANDROID_ROBOT_OBJ_FILE;
 	
-//	static private String robotPathString = "file://" + bundleString + Constants.ROBOT_OBJ_FILE;
+	static public String evaButtonPath = bundleString + File.separator + Constants.EVA_BUTTON_IMAGE;
+	static public String androidButtonPath = bundleString + File.separator + Constants.ANDROID_BUTTON_IMAGE;
+	static public String playDanceButtonPath = bundleString + File.separator + Constants.PLAY_DANCE_BUTTON_IMAGE;
+	static public String stopDanceButtonPath = bundleString + File.separator + Constants.STOP_DANCE_BUTTON_IMAGE;
 	
 	static void initResources() {
 		System.out.println(evaRobotPath);

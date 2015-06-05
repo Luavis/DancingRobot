@@ -11,6 +11,12 @@ public class Constants {
 	
 	static public final double FPS = 30.0f;
 	
+	static public final String EVA_BUTTON_IMAGE = "eva.png";
+	static public final String ANDROID_BUTTON_IMAGE = "android.png";
+	static public final String PLAY_DANCE_BUTTON_IMAGE = "play_dance.png";
+	static public final String STOP_DANCE_BUTTON_IMAGE = "stop_dance.png";
+	
+	
 	static public final String EVA_ROBOT_OBJ_FILE = "eva.obj";
 	static public final String ANDROID_ROBOT_OBJ_FILE = "android.obj";
 	
