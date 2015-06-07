@@ -76,28 +76,6 @@ public class AndroidDance extends RobotDance {
 		.repeat(5)
 		.parallel(0.2, new MovementRotation(target.branch).setY(-80)
 				)
-//		.parallel(0.1, MovementAndroid.putHandUp(target, 90)
-//				)
-//		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
-//				)
-//		.parallel(0.5, new MovementRotation(target.branch).setY(360),
-//				  new MovementTransition(target.branch).setY(1),
-//				  new MovementTransition(target.branch).setY(-1)
-//				)
-//		.repeat(3, false)
-//		.parallel(0.5, new MovementRotation(target.branch).setZ(-30)
-//				)
-//		.parallel(0.5, new MovementRotation(target.branch).setY(360)
-//				)
-//		.repeat(3, false)
-//		.parallel(0.5, new MovementRotation(target.branch).setZ(120)
-//				)
-//		.parallel(0.3, new MovementRotation(target.branch).setY(360)
-//				 )
-//		.repeat(3, false)
-//		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
-//				)
-//		.parallel(0.2, MovementAndroid.putHandUp(target, -90))
 		.commit();
 	}
 	
