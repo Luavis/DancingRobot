@@ -10,14 +10,17 @@ public class AndroidDance extends RobotDance {
 		// TODO Auto-generated method stub
 		target
 		.getAnimator()
-		.parallel(0.2, 
-					MovementAndroid.putHandUp(target, 90),
-					new MovementTransition(target.headBranch).setX(0.1),
-					 new MovementTransition(target.headBranch).setX(-0.1),
-					 new MovementRotation(target.headBranch).setX(20),
-					 new MovementRotation(target.headBranch).setX(-20),
-					 new MovementRotation(target.bodyBranch).setX(20),
-					 new MovementRotation(target.bodyBranch).setX(-20)
+//		.parallel(0.2, MovementAndroid.putHandUp(target, 50)
+//				)
+		.parallel(0.5, new MovementRotation(target.leftArmBranch).setX(40),
+					new MovementRotation(target.leftArmBranch).setX(-40),
+					new MovementRotation(target.rightArmBranch).setX(40),
+					new MovementRotation(target.rightArmBranch).setX(-40),
+					new MovementRotation(target.branch).setY(20)
+				)
+		.repeat(5)
+		.parallel(0.2, MovementAndroid.putHandUp(target, 90),
+					new MovementTransition(target.headBranch).setX(0.1)
 				)
 		.repeat(5)
 		.start()
