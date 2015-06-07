@@ -39,7 +39,23 @@ public class EvaDance extends RobotDance {
 		.repeat(3, false)
 		.parallel(0.2, new MovementRotation(target.branch).setZ(-120)
 				)
-		.parallel(0.2, MovementEva.putHandUp(target, -80))
+		.parallel(0.2, MovementEva.putHandUp(target, -80)
+				)
+		.parallel(0.5, new MovementRotation(target.branch).setX(360),
+				new MovementTransition(target.branch).setY(0.7).setZ(0.7),
+				new MovementTransition(target.branch).setY(0.6).setZ(-0.6),
+				new MovementTransition(target.branch).setY(-0.5).setZ(-0.5),
+				new MovementTransition(target.branch).setY(-0.4).setZ(0.4)
+				)
+		.start()
+		.parallel(0.1, MovementEva.putHandUp(target, 20)
+				)
+		.parallel(0.5, new MovementRotation(target.headBranch).setY(360)
+				)
+		.parallel(0.1, MovementEva.putHandUp(target, -20)
+				)
+		.repeat(3, false)
+		.end()
 		.commit();
 	}
 

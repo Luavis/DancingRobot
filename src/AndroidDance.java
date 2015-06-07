@@ -55,10 +55,27 @@ public class AndroidDance extends RobotDance {
 		.repeat(3, false)
 		.end()
 		.parallel(0.2, MovementAndroid.putHandUp(target, -100),
-				new MovementTransition(target.leftArmBranch).setY(-0.35).setX(-0.02),
-				new MovementTransition(target.rightArmBranch).setX(-0.15)
+					new MovementTransition(target.leftArmBranch).setY(-0.35).setX(-0.02),
+					new MovementTransition(target.rightArmBranch).setX(-0.15)
 				)
-		
+		.parallel(0.2, new MovementRotation(target.branch).setY(-80)
+				)
+		.parallel(0.2, new MovementRotation(target.leftArmBranch).setX(-50),
+					new MovementRotation(target.rightArmBranch).setX(-50),
+					new MovementTransition(target.headBranch).setZ(0.4),
+					new MovementRotation(target.bodyBranch).setX(10)
+				)
+		.repeat(5)
+		.parallel(0.2, new MovementRotation(target.branch).setY(160)
+				)
+		.parallel(0.2, new MovementRotation(target.leftArmBranch).setX(-50),
+					new MovementRotation(target.rightArmBranch).setX(-50),
+					new MovementTransition(target.headBranch).setZ(0.4),
+					new MovementRotation(target.bodyBranch).setX(10)
+				)
+		.repeat(5)
+		.parallel(0.2, new MovementRotation(target.branch).setY(-80)
+				)
 //		.parallel(0.1, MovementAndroid.putHandUp(target, 90)
 //				)
 //		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
