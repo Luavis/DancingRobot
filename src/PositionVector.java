@@ -13,11 +13,11 @@ public class PositionVector {
 	
 	public PositionVector substractPoition(PositionVector v) {
 		
-		Vector3d t1 = this.transitionVector;
-		Vector3d r1 = this.rotationVector;
+		Vector3d t1 = v.transitionVector;
+		Vector3d r1 = v.rotationVector;
 		
-		Vector3d t2 = v.transitionVector;
-		Vector3d r2 = v.rotationVector;
+		Vector3d t2 = this.transitionVector;
+		Vector3d r2 = this.rotationVector;
 		
 		return new PositionVector(new Vector3d(t1.x - t2.x, t1.y - t2.y, t1.z - t2.z), new Vector3d(r1.x - r2.x, r1.y - r2.y, r1.z - r2.z));
 	}

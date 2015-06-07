@@ -39,25 +39,89 @@ public abstract class Robot extends WaveFontObject implements DancingRobot, Anim
 		branch.updateOriginPosition();
 	}
 	
-	public Movement[] restoreMovements() {
-		PositionVector headDelta = headBranch.substractByOrigin();
-		PositionVector rightArmDelta = rightArmBranch.substractByOrigin();
-		PositionVector leftArmDelta = leftArmBranch.substractByOrigin();
-		PositionVector bodyDelta = bodyBranch.substractByOrigin();
-		PositionVector totlaDelta = branch.substractByOrigin();
+	public AbstractMovement[] restoreMovements(double delta) {
 		
-		Movement[] ret = {
-			new MovementRotation(headBranch, headDelta.rotationVector),
-			new MovementRotation(rightArmBranch, rightArmDelta.rotationVector),
-			new MovementRotation(leftArmBranch, leftArmDelta.rotationVector),
-			new MovementRotation(bodyBranch, bodyDelta.rotationVector),
-			new MovementRotation(branch, totlaDelta.rotationVector),
-			
-			new MovementTransition(headBranch, headDelta.transitionVector),
-			new MovementTransition(rightArmBranch, headDelta.transitionVector),
-			new MovementTransition(leftArmBranch, headDelta.transitionVector),
-			new MovementTransition(bodyBranch, headDelta.transitionVector),
-			new MovementTransition(branch, headDelta.transitionVector),
+		AbstractMovement[] ret = {
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector headDelta = headBranch.substractByOrigin();
+					return new MovementRotation(headBranch, headDelta.rotationVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector rightArmDelta = rightArmBranch.substractByOrigin();
+					return new MovementRotation(rightArmBranch, rightArmDelta.rotationVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector leftArmDelta = leftArmBranch.substractByOrigin();
+					return new MovementRotation(leftArmBranch, leftArmDelta.rotationVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector bodyDelta = bodyBranch.substractByOrigin();
+					return new MovementRotation(bodyBranch, bodyDelta.rotationVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector totlaDelta = branch.substractByOrigin();
+					return new MovementRotation(branch, totlaDelta.rotationVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector headDelta = headBranch.substractByOrigin();
+					return new MovementTransition(headBranch, headDelta.transitionVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector rightArmDelta = rightArmBranch.substractByOrigin();
+					return new MovementTransition(rightArmBranch, rightArmDelta.transitionVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector leftArmDelta = leftArmBranch.substractByOrigin();
+					return new MovementTransition(leftArmBranch, leftArmDelta.transitionVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector bodyDelta = bodyBranch.substractByOrigin();
+					return new MovementTransition(bodyBranch, bodyDelta.transitionVector);
+				}
+			}),
+			new MovementLazy(delta, new MovementLazyAction() {
+				
+				@Override
+				public AbstractMovement getMovement() {
+					PositionVector totlaDelta = branch.substractByOrigin();
+					return new MovementTransition(branch, totlaDelta.transitionVector);
+				}
+			}),
 		};
 		
 		return ret;

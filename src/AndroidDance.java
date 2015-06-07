@@ -10,13 +10,14 @@ public class AndroidDance extends RobotDance {
 		// TODO Auto-generated method stub
 		target
 		.getAnimator()
-		.parallel(0.2, MovementAndroid.putHandUp(target, 90),
+		.parallel(0.2, 
+					MovementAndroid.putHandUp(target, 90),
 					new MovementTransition(target.headBranch).setX(0.1),
-					 new MovementTransition(target.headBranch).setX(-0.1)
-//					 new MovementRotation(target.headBranch).setX(20),
-//					 new MovementRotation(target.headBranch).setX(-20),
-//					 new MovementRotation(target.bodyBranch).setX(20),
-//					 new MovementRotation(target.bodyBranch).setX(-20)
+					 new MovementTransition(target.headBranch).setX(-0.1),
+					 new MovementRotation(target.headBranch).setX(20),
+					 new MovementRotation(target.headBranch).setX(-20),
+					 new MovementRotation(target.bodyBranch).setX(20),
+					 new MovementRotation(target.bodyBranch).setX(-20)
 				)
 		.repeat(5)
 		.start()
@@ -76,6 +77,7 @@ public class AndroidDance extends RobotDance {
 		.repeat(5)
 		.parallel(0.2, new MovementRotation(target.branch).setY(-80)
 				)
+		.parallel(0.2, target.restoreMovements(0.2)) // restore all
 		.commit();
 	}
 	

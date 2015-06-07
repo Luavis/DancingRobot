@@ -15,8 +15,6 @@ public class Animator {
 	private boolean isStartedPoint = false;
 	private Stack<Integer> startIndexesStack = new Stack<Integer>();
 	
-	private boolean needReset = false;
-	
 	public Animator() {
 		this(AnimationManager.FPS);
 	}
@@ -210,23 +208,18 @@ public class Animator {
 	}
 	
 	public void commit() {
-		this.commit(true);
-	}
-	
-	public void commit(boolean reset) {
-		needReset  = reset;
 		// set none velocity
 		for(int i = 0; i < movements.size(); i++) {
-			Movement[] ms = movements.get(i);
-			ArrayList<Movement> processedTypeMovements = new ArrayList<Movement>();
+			AbstractMovement[] ms = movements.get(i);
+			ArrayList<AbstractMovement> processedTypeMovements = new ArrayList<AbstractMovement>();
 			
-			for(Movement m : ms) {
+			for(AbstractMovement m : ms) {
 				
 				int deltaSum = 0;
 				
 				boolean isProcessed = false; 
 				
-				for( Movement p_m : processedTypeMovements) {
+				for( AbstractMovement p_m : processedTypeMovements) {
 					if(m.isSameType(p_m))
 						isProcessed = true;
 				}
@@ -236,10 +229,10 @@ public class Animator {
 				
 				processedTypeMovements.add(m);
 				
-				ArrayList<Movement> noneVelocitySameTypeMs = new ArrayList<Movement>();
-				ArrayList<Movement> sameTypeMs = new ArrayList<Movement>();
+				ArrayList<AbstractMovement> noneVelocitySameTypeMs = new ArrayList<AbstractMovement>();
+				ArrayList<AbstractMovement> sameTypeMs = new ArrayList<AbstractMovement>();
 				
-				for(Movement otherM : ms) {
+				for(AbstractMovement otherM : ms) {
 					
 					if(m.isSameType(otherM)) {
 						if(!otherM.hasDeltaSecond()) {
@@ -252,14 +245,14 @@ public class Animator {
 					}
 				}
 				
-				for(Movement other_ms : noneVelocitySameTypeMs) {
+				for(AbstractMovement other_ms : noneVelocitySameTypeMs) {
 					other_ms.setDeltaSecond((this.commonVelocities.get(i) - (double)deltaSum) / (double)noneVelocitySameTypeMs.size());
 				}
 				
 				double sumFrontDelay = 0.0f;
 				double commonDelta = this.commonVelocities.get(i);
 				
-				for(Movement sameM: sameTypeMs) {
+				for(AbstractMovement sameM: sameTypeMs) {
 					sameM.setFrontDelay(sumFrontDelay);
 					sumFrontDelay += sameM.getDeltaSecond();
 					
@@ -278,7 +271,6 @@ public class Animator {
 			return;
 		}
 		else if(this.movements.size() <= this.currentMoveIndex) { //out of index
-			
 			return;
 		}
 		
@@ -295,8 +287,15 @@ public class Animator {
 			currentFrame = 0;
 			currentMoveIndex++;
 			
-			if(this.movements.size() <= this.currentMoveIndex)
-				return;
+			if(this.movements.size() <= this.currentMoveIndex) {
+				if(this.infRepeat) {
+					this.currentMoveIndex = 0;
+					this.currentFrame = 0;
+				}
+				else {
+					return;
+				}
+			}
 			
 			AbstractMovement[] newMs = this.movements.get(currentMoveIndex);
 			for(int i = 0; i < newMs.length; i++) {

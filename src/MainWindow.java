@@ -80,7 +80,7 @@ public class MainWindow extends JFrame {
 				stage.registerAnimatableObjects(a);
 				
 				a.branch.transition(andriodx, 0, 0);
-				
+				a.updateOriginVector();
 				andriodx -= 3;
 			}
 		});
@@ -98,7 +98,7 @@ public class MainWindow extends JFrame {
 				stage.registerAnimatableObjects(a);
 				
 				a.branch.transition(Evax, 0, 0);
-				
+				a.updateOriginVector();
 				Evax += 3;
 			}
 		});

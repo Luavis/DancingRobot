@@ -65,7 +65,12 @@ public class Movement extends AbstractMovement {
 		return this;
 	}
 	
-	public boolean isSameType(Movement m) {
+	@Override
+	public boolean isSameType(AbstractMovement am) {
+		if(!(am instanceof Movement))
+			return false;
+		Movement m = (Movement)am;
+		
 		return (this.smtTarget != null && this.smtTarget == m.smtTarget && this.type == m.type);
 	}
 	

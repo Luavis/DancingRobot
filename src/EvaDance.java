@@ -56,6 +56,7 @@ public class EvaDance extends RobotDance {
 			)
 		.repeat(3, false)
 		.end()
+		.parallel(0.2, target.restoreMovements(0.2))
 		.commit();
 	}
 

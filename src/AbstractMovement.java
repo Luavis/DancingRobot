@@ -60,4 +60,5 @@ public abstract class AbstractMovement implements Cloneable {
 	abstract public AbstractMovement clone();
 	abstract public AbstractMovement reverseClone();
 	abstract public void move(double moveRate);
+	abstract public boolean isSameType(AbstractMovement m);
 }
