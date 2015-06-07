@@ -8,8 +8,6 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.Group;
-import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -43,10 +41,10 @@ public class MainCanvas extends Canvas3D {
 	    // Create a simple scene and attach it to the virtual universe
 	    BranchGroup scene = this.createSceneGraph();
 	    u = new SimpleUniverse(this);
-	 
+	    
 	    // add mouse behaviors to the ViewingPlatform
 	    ViewingPlatform viewingPlatform = u.getViewingPlatform();
-	 
+	    
 	    PlatformGeometry pg = new PlatformGeometry();
 	 
 	    // Set up the ambient light
@@ -72,17 +70,19 @@ public class MainCanvas extends Canvas3D {
 	    pg.addChild(light2);
 	 
 	    viewingPlatform.setPlatformGeometry(pg);
-	 
+	    
 	    // This will move the ViewPlatform back a bit so the
 	    // objects in the scene can be viewed.
 	    viewingPlatform.setNominalViewingTransform();
-	 
+	    
 	    if (!spin) {
 	      OrbitBehavior orbit = new OrbitBehavior(this,
 	          OrbitBehavior.REVERSE_ALL);
 	      BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0,
 	          0.0), 100.0);
+	      
 	      orbit.setSchedulingBounds(bounds);
+	        
 	      viewingPlatform.setViewPlatformBehavior(orbit);
 	    }
 	 
@@ -92,26 +92,6 @@ public class MainCanvas extends Canvas3D {
 	public boolean isDancingMode() {
 		return this.isDancingMode;
 	}
-	
-//	public void addObjects() {
-//		Eva r = new Eva();
-//		r.setDance(new EvaDance(r));
-//		
-//		this.addObject(r.getSuperGroup());
-//		this.registerAnimatableObjects(r);
-//		
-//		Android a = new Android();
-//		a.setDance(new AndroidDance(a));
-//		
-//		this.addObject(a.getSuperGroup());
-//		this.registerAnimatableObjects(a);
-//		
-//		a.branch.transition(-1.5, 0, 0);
-//		r.branch.transition(1.5, 0, 0);
-//		
-//		a.startDancing();
-//		r.startDancing();
-//	}
 	
 	public void startRobotsDance() {
 		this.isDancingMode = true;
@@ -167,7 +147,6 @@ public class MainCanvas extends Canvas3D {
 	    TransformGroup objScale = new TransformGroup();
 	    Transform3D t3d = new Transform3D();
 	    t3d.setScale(this.worldScale);
-	    
 	    objScale.setTransform(t3d);
 	    objRoot.addChild(objScale);
 	 
@@ -196,12 +175,13 @@ public class MainCanvas extends Canvas3D {
 	      Transform3D yAxis = new Transform3D();
 	      Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,
 	          4000, 0, 0, 0, 0, 0);
-	 
+	      
 	      RotationInterpolator rotator = new RotationInterpolator(
 	          rotationAlpha, transformGroup, yAxis, 0.0f,
 	          (float) Math.PI * 2.0f);
 	      rotator.setSchedulingBounds(bounds);
 	      transformGroup.addChild(rotator);
+	      
 	    }
 	 
 	    // Set up the background

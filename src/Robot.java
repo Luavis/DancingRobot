@@ -9,7 +9,7 @@ import javax.vecmath.Matrix3d;
 import javax.vecmath.Vector3d;
 
 
-public class Robot extends WaveFontObject implements DancingRobot, Animatable, Danceable {
+public abstract class Robot extends WaveFontObject implements DancingRobot, Animatable, Danceable {
 	
 	protected SmartBranchGroup headBranch;
 	protected SmartBranchGroup leftArmBranch;

@@ -1,4 +1,7 @@
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
 
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Group;
@@ -9,17 +12,28 @@ import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.loaders.objectfile.ObjectFile;
 
 
-public class WaveFontObject { // .obj file object in 3d
-	
+abstract public class WaveFontObject { // .obj file object in 3d
 	protected String filePath;
 	protected SmartBranchGroup branch;
-	protected Scene scene;
 	
 	public WaveFontObject(String filePath) {
 		this.filePath = filePath;
-		scene = this.createScene();
-	    branch = new SmartBranchGroup(scene.getSceneGroup());
+		
+		if(this.getCachedBranchGroup() == null || this.getScene() == null) {
+			this.setScene(this.createScene());
+		    branch = new SmartBranchGroup(this.getScene().getSceneGroup());
+		    this.setCachedBranchGroup(branch);
+		}
+		else {
+			branch = this.getCachedBranchGroup().clone();
+		}
 	}
+	
+	abstract protected void setScene(Scene s);
+	abstract protected Scene getScene();
+	
+	abstract protected void setCachedBranchGroup(SmartBranchGroup s);
+	abstract protected SmartBranchGroup getCachedBranchGroup();
 	
 	protected Scene createScene() {
 		int flags = ObjectFile.RESIZE;

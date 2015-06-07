@@ -1,24 +1,20 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.annotation.Resource;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.sun.j3d.utils.universe.SimpleUniverse;
-
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.ImageIcon;
-
-import java.awt.Color;
 
 
 public class MainWindow extends JFrame {
@@ -29,6 +25,7 @@ public class MainWindow extends JFrame {
 	private JButton btnNewButton_3;
 	
 	public MainWindow() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -44,28 +41,35 @@ public class MainWindow extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new GridLayout(1, 1, 150, 150));
+		panel.setLayout(new GridLayout(1, 4, 150, 150));
 		
-		btnNewButton_3 = new JButton(new ImageIcon(Resources.playDanceButtonPath));
+		btnNewButton_3 = new JButton(this.getScaledImageIcon(Resources.playDanceButtonPath));
+		
+		btnNewButton_3.setBorderPainted(false);
+		btnNewButton_3.setContentAreaFilled(false);
 		btnNewButton_3.setBackground(Color.WHITE);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(stage.isDancingMode()) {
 					stage.stopRobotsDance();
-					btnNewButton_3.setIcon(new ImageIcon(Resources.playDanceButtonPath));
+					btnNewButton_3.setIcon(getScaledImageIcon(Resources.playDanceButtonPath));
 				}
 				else {
 					stage.startRobotsDance();
-					btnNewButton_3.setIcon(new ImageIcon(Resources.stopDanceButtonPath));
+					btnNewButton_3.setIcon(getScaledImageIcon(Resources.stopDanceButtonPath));
 				}
 			}
 		});
 		
 		panel.add(btnNewButton_3);
 		
-		JButton btnNewButton_2 = new JButton("");
+		JButton btnNewButton_2 = new JButton(this.getScaledImageIcon(Resources.androidButtonPath));
 		btnNewButton_2.setBackground(Color.WHITE);
-		btnNewButton_2.setIcon(new ImageIcon(Resources.androidButtonPath));
+		
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setContentAreaFilled(false);
+		btnNewButton_2.setPreferredSize(new Dimension(40, 40));
+		
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Android a = new Android();
@@ -81,9 +85,9 @@ public class MainWindow extends JFrame {
 		});
 		panel.add(btnNewButton_2);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setIcon(new ImageIcon(Resources.evaButtonPath));
+		JButton btnNewButton = new JButton(this.getScaledImageIcon(Resources.evaButtonPath));
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setContentAreaFilled(false);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Eva a = new Eva();
@@ -99,8 +103,21 @@ public class MainWindow extends JFrame {
 		});
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_4 = new JButton("Start Music");
+		JButton btnNewButton_4 = new JButton(this.getScaledImageIcon(Resources.playMusicButtonPath));
+		btnNewButton_4.setBorderPainted(false);
+		btnNewButton_4.setContentAreaFilled(false);
 		panel.add(btnNewButton_4);
 	}
 
+	public ImageIcon getScaledImageIcon(String imagePath) {
+		
+		int scale = 3; // 3 times smaller for icon image
+		
+		ImageIcon imageIcon = new ImageIcon(imagePath);
+		int width = imageIcon.getIconWidth();
+		int newWidth = width / scale;
+		return  new ImageIcon(imageIcon.getImage().getScaledInstance(newWidth, -1,
+		            java.awt.Image.SCALE_SMOOTH));
+	}
+	
 }
