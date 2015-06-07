@@ -4,7 +4,7 @@ public class Constants {
 	static public final int MAIN_WINDOW_HEIGHT = 700;
 	
 	static public final String MAIN_WINDOW_TITLE = "Dancing robot";
-	static public final String BACKGROUND_SPRITE = "background.jpg";
+	static public final String BACKGROUND_SPRITE = "background.png";
 	
 	static public final String START_BUTTON_TITLE = "Start dance";
 	static public final String STOP_BUTTON_TITLE = "Stop dance";
