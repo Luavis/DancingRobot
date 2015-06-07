@@ -201,5 +201,5 @@ public class MainCanvas extends Canvas3D {
 		for(Animatable animatableObjects : this.animatableObjects) {
 			animatableObjects.animateNextFrame();
 		}
-	}		
+	}
 }

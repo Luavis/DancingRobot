@@ -1,10 +1,14 @@
 
+import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Group;
-import javax.media.j3d.Node;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
+
+import com.sun.j3d.utils.behaviors.mouse.MouseRotate;
+import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 
 
 public class SmartBranchGroup implements Cloneable {
@@ -60,7 +64,23 @@ public class SmartBranchGroup implements Cloneable {
 		this.rotationYAnimationGroup.addChild(rotationZAnimationGroup);
 		this.rotationZAnimationGroup.addChild(wrapBranch);
 		
-		this.superBranch.addChild(this.transitionAnimationGroup);
+		BoundingSphere boundingSphere = new BoundingSphere(new Point3d(0, 0, 0), 1000);
+		TransformGroup rootTransformGroup = new TransformGroup();
+		rootTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    rootTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    
+//		MouseRotate mouseRotate = new MouseRotate();
+//	    mouseRotate.setTransformGroup(rootTransformGroup);
+//	    mouseRotate.setSchedulingBounds(boundingSphere);
+//	    rootTransformGroup.addChild(mouseRotate);
+
+	    MouseTranslate mouseTrans = new MouseTranslate();
+	    mouseTrans.setTransformGroup(rootTransformGroup);
+	    mouseTrans.setSchedulingBounds(boundingSphere);
+	    rootTransformGroup.addChild(mouseTrans);
+	    rootTransformGroup.addChild(this.transitionAnimationGroup);
+	    
+		this.superBranch.addChild(rootTransformGroup);
 	}
 	
 	public BranchGroup getSuperGroup() {
