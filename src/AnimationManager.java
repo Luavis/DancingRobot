@@ -19,13 +19,6 @@ public class AnimationManager {
 					if(AnimationManager.this.canvas != null) {
 						try {
 							AnimationManager.this.canvas.animateAllObjectNextFrame();
-							EventQueue.invokeAndWait(new Runnable() {
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									AnimationManager.this.canvas.repaint();
-								}
-							});
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
