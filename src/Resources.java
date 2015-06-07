@@ -25,6 +25,7 @@ public class Resources {
 	
 	static public String stopMusicButtonPath = bundleString + File.separator + Constants.MUSIC_STOP_BUTTON_IMAGE;
 	
+	static public Music backgroundSound;
 	
 	static void initResources() {
 		if(
@@ -40,8 +41,23 @@ public class Resources {
 			throw(new IllegalStateException("Some resource files not found"));
 		}
 		else { // load Robots for caching objects
-			new Eva();
-			new Android();
+			backgroundSound = new Music(new File(bgSoundPath));
+			
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					new Eva();
+				}
+			}).start();
+
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					new Android();
+				}
+			}).start();
 		}
 		return;
 	}

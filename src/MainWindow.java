@@ -23,6 +23,7 @@ public class MainWindow extends JFrame {
 	private MainCanvas stage;
 	private double andriodx = -1.5, Evax = 1.5;
 	private JButton btnNewButton_3;
+	private JButton btnNewButton_4;
 	
 	public MainWindow() {
 		
@@ -103,9 +104,33 @@ public class MainWindow extends JFrame {
 		});
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_4 = new JButton(this.getScaledImageIcon(Resources.playMusicButtonPath));
+		btnNewButton_4 = new JButton(this.getScaledImageIcon(Resources.playMusicButtonPath));
 		btnNewButton_4.setBorderPainted(false);
 		btnNewButton_4.setContentAreaFilled(false);
+		
+		btnNewButton_4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(Resources.backgroundSound.isPaused() || Resources.backgroundSound.isStopped()) {
+					btnNewButton_4.setIcon(MainWindow.this.getScaledImageIcon(Resources.stopMusicButtonPath));
+					Resources.backgroundSound.play();
+					Resources.backgroundSound.endHandler = new MusicEndHandler() {
+						
+						@Override
+						public void musicEnded() {
+							// TODO Auto-generated method stub
+							btnNewButton_4.setIcon(MainWindow.this.getScaledImageIcon(Resources.playMusicButtonPath));
+						}
+					};
+				}
+				else {
+					btnNewButton_4.setIcon(MainWindow.this.getScaledImageIcon(Resources.playMusicButtonPath));
+					Resources.backgroundSound.pause();
+				}
+			}
+		});
+		
 		panel.add(btnNewButton_4);
 	}
 
