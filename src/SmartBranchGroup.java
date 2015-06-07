@@ -69,11 +69,6 @@ public class SmartBranchGroup implements Cloneable {
 		rootTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 	    rootTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 	    
-//		MouseRotate mouseRotate = new MouseRotate();
-//	    mouseRotate.setTransformGroup(rootTransformGroup);
-//	    mouseRotate.setSchedulingBounds(boundingSphere);
-//	    rootTransformGroup.addChild(mouseRotate);
-
 	    MouseTranslate mouseTrans = new MouseTranslate();
 	    mouseTrans.setTransformGroup(rootTransformGroup);
 	    mouseTrans.setSchedulingBounds(boundingSphere);

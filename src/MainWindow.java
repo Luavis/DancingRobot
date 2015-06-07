@@ -3,11 +3,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -119,8 +117,7 @@ public class MainWindow extends JFrame {
 						
 						@Override
 						public void musicEnded() {
-							// TODO Auto-generated method stub
-							btnNewButton_4.setIcon(MainWindow.this.getScaledImageIcon(Resources.playMusicButtonPath));
+							Resources.backgroundSound.play();
 						}
 					};
 				}
