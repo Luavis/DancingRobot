@@ -18,6 +18,13 @@ public class EvaDance extends RobotDance {
 //				)
 //		.repeat(4)
 //		.end()
+		.parallel(0.5, new MovementRotation(target.leftArmBranch).setX(40),
+					new MovementRotation(target.leftArmBranch).setX(-40),
+					new MovementRotation(target.rightArmBranch).setX(40),
+					new MovementRotation(target.rightArmBranch).setX(-40),
+					new MovementRotation(target.branch).setY(20)
+				)
+		.repeat(5)
 		.parallel(0.1, MovementEva.putHandUp(target, 90)
 				)
 		.parallel(0.1, new MovementRotation(target.branch).setZ(30)
