@@ -3,12 +3,18 @@ import java.util.Hashtable;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Shape3D;
 
+import com.sun.j3d.loaders.Scene;
+
 
 public class Android extends Robot {
+	private static Scene scene = null;
+	static private SmartBranchGroup cachedBranchGroup = null;
+	
 	public Android() {
 		super(Resources.androidRobotPath);
 		
-		Hashtable<String, Shape3D> sceneHash = (Hashtable<String, Shape3D>)this.scene.getNamedObjects();
+		@SuppressWarnings("unchecked")
+		Hashtable<String, Shape3D> sceneHash = (Hashtable<String, Shape3D>)this.getScene().getNamedObjects();
 	    
 	    this.branch = new SmartBranchGroup(new BranchGroup()); // clear branch of parent
 	    
@@ -49,5 +55,25 @@ public class Android extends Robot {
 	    
 	    this.bodyBranch = new SmartBranchGroup(bodyBranch);
 	    this.getBranchGroup().addChild(this.bodyBranch.getSuperGroup());
+	}
+	
+	@Override
+	protected void setScene(Scene s) {
+		Android.scene = s; 
+	}
+	
+	@Override
+	protected Scene getScene() {
+		return Android.scene;
+	}
+	
+	@Override
+	protected void setCachedBranchGroup(SmartBranchGroup s) {
+		Android.cachedBranchGroup = s;
+	}
+
+	@Override
+	protected SmartBranchGroup getCachedBranchGroup() {
+		return Android.cachedBranchGroup;
 	}
 }

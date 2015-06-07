@@ -1,16 +1,15 @@
 
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Group;
+import javax.media.j3d.Node;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3d;
 
 
-public class SmartBranchGroup {
-	
-//	private double rotXDegree = 0.0f;
-//	private double rotYDegree = 0.0f;
-//	private double rotZDegree = 0.0f;
+public class SmartBranchGroup implements Cloneable {
+
+	private BranchGroup superBranch = new BranchGroup();
 	
 	private Vector3d transitionVector = new Vector3d();
 	private Vector3d rotationVector = new Vector3d(0, 0, 0);
@@ -60,10 +59,12 @@ public class SmartBranchGroup {
 		this.rotationXAnimationGroup.addChild(rotationYAnimationGroup);
 		this.rotationYAnimationGroup.addChild(rotationZAnimationGroup);
 		this.rotationZAnimationGroup.addChild(wrapBranch);
+		
+		this.superBranch.addChild(this.transitionAnimationGroup);
 	}
 	
-	public Group getSuperGroup() {
-		return this.transitionAnimationGroup;
+	public BranchGroup getSuperGroup() {
+		return this.superBranch;
 	}
 	
 	public void updateOriginPosition() {
@@ -111,5 +112,14 @@ public class SmartBranchGroup {
 		
 		this.transition.setTranslation(transitionVector);
 		transitionAnimationGroup.setTransform(transition);
+	}
+	
+	@Override
+	protected SmartBranchGroup clone() {
+		BranchGroup bClone = new BranchGroup();
+		bClone .addChild(wrapBranch.cloneNode(true));
+		SmartBranchGroup clone = new SmartBranchGroup(bClone);
+		
+		return clone;
 	}
 }

@@ -6,7 +6,7 @@ import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 
 
-public class Robot extends WaveFontObject implements DancingRobot, Animatable, Danceable {
+public abstract class Robot extends WaveFontObject implements DancingRobot, Animatable, Danceable {
 	
 	protected SmartBranchGroup headBranch;
 	protected SmartBranchGroup leftArmBranch;

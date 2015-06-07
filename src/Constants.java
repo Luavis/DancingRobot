@@ -6,7 +6,20 @@ public class Constants {
 	static public final String MAIN_WINDOW_TITLE = "Dancing robot";
 	static public final String BACKGROUND_SPRITE = "background.jpg";
 	
+	static public final String START_BUTTON_TITLE = "Start dance";
+	static public final String STOP_BUTTON_TITLE = "Stop dance";
+	
 	static public final double FPS = 30.0f;
+	
+	static public final String EVA_BUTTON_IMAGE = "eva_add_button.png";
+	static public final String ANDROID_BUTTON_IMAGE = "android_add_button.png";
+	static public final String PLAY_DANCE_BUTTON_IMAGE = "play_dance.png";
+	static public final String STOP_DANCE_BUTTON_IMAGE = "stop_dance.png";
+	
+	static public final String MUSIC_PLAY_BUTTON_IMAGE = "music_play_button.png";
+	static public final String MUSIC_STOP_BUTTON_IMAGE = "music_stop_button.png";
+	
+	static public final String BG_SOUND_FILE = "bg.wav";
 	
 	static public final String EVA_ROBOT_OBJ_FILE = "eva.obj";
 	static public final String ANDROID_ROBOT_OBJ_FILE = "android.obj";

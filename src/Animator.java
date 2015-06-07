@@ -10,6 +10,8 @@ public class Animator {
 	private double fps = 30.0f;
 	private double currentFrame = 1;
 	
+	private boolean infRepeat = true;
+	
 	private boolean isStartedPoint = false;
 	private Stack<Integer> startIndexesStack = new Stack<Integer>();
 	
@@ -48,7 +50,12 @@ public class Animator {
 		return this;
 	}
 	
-	public Animator parallel(double commonVelocity, AbstractMovement... ms) {
+	public Animator setInfRepeat(boolean infRepeat) {
+		this.infRepeat = infRepeat;
+		return this;
+	}
+	
+	public Animator parallel(double commonVelocity, Movement... ms) {
 		commonVelocities.add(commonVelocity);
 		movements.add(ms);
 		
@@ -210,7 +217,56 @@ public class Animator {
 		needReset  = reset;
 		// set none velocity
 		for(int i = 0; i < movements.size(); i++) {
+			Movement[] ms = movements.get(i);
+			ArrayList<Movement> processedTypeMovements = new ArrayList<Movement>();
 			
+			for(Movement m : ms) {
+				
+				int deltaSum = 0;
+				
+				boolean isProcessed = false; 
+				
+				for( Movement p_m : processedTypeMovements) {
+					if(m.isSameType(p_m))
+						isProcessed = true;
+				}
+				
+				if(isProcessed) // ban multiple
+					continue;
+				
+				processedTypeMovements.add(m);
+				
+				ArrayList<Movement> noneVelocitySameTypeMs = new ArrayList<Movement>();
+				ArrayList<Movement> sameTypeMs = new ArrayList<Movement>();
+				
+				for(Movement otherM : ms) {
+					
+					if(m.isSameType(otherM)) {
+						if(!otherM.hasDeltaSecond()) {
+							noneVelocitySameTypeMs.add(otherM);
+						}
+						else
+							deltaSum += m.getDeltaSecond();
+						
+						sameTypeMs.add(otherM);
+					}
+				}
+				
+				for(Movement other_ms : noneVelocitySameTypeMs) {
+					other_ms.setDeltaSecond((this.commonVelocities.get(i) - (double)deltaSum) / (double)noneVelocitySameTypeMs.size());
+				}
+				
+				double sumFrontDelay = 0.0f;
+				double commonDelta = this.commonVelocities.get(i);
+				
+				for(Movement sameM: sameTypeMs) {
+					sameM.setFrontDelay(sumFrontDelay);
+					sumFrontDelay += sameM.getDeltaSecond();
+					
+					if(sumFrontDelay < commonDelta)
+						sameM.setBackDelay(commonDelta - sumFrontDelay);
+				}
+			}
 		}
 		
 		currentMoveIndex = 0;
@@ -222,6 +278,7 @@ public class Animator {
 			return;
 		}
 		else if(this.movements.size() <= this.currentMoveIndex) { //out of index
+			
 			return;
 		}
 		

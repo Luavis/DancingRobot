@@ -1,4 +1,3 @@
-
 import java.awt.GraphicsConfiguration;
 import java.util.ArrayList;
 
@@ -9,7 +8,6 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
-import javax.media.j3d.Group;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -23,14 +21,17 @@ import com.sun.j3d.utils.universe.PlatformGeometry;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
+
 public class MainCanvas extends Canvas3D {
 	
 	private boolean spin = false;
 	private SimpleUniverse u;
 	private BoundingSphere bounds;
 	private ArrayList<Animatable> animatableObjects;
-	private TransformGroup worldGroup;
+	private BranchGroup worldGroup;
 	private double worldScale = 0.3;
+	private ArrayList<Robot> robots = new ArrayList<Robot>();
+	private boolean isDancingMode = false;
 	
 	public MainCanvas(GraphicsConfiguration config) {
 		super(config);
@@ -40,10 +41,10 @@ public class MainCanvas extends Canvas3D {
 	    // Create a simple scene and attach it to the virtual universe
 	    BranchGroup scene = this.createSceneGraph();
 	    u = new SimpleUniverse(this);
-	 
+	    
 	    // add mouse behaviors to the ViewingPlatform
 	    ViewingPlatform viewingPlatform = u.getViewingPlatform();
-	 
+	    
 	    PlatformGeometry pg = new PlatformGeometry();
 	 
 	    // Set up the ambient light
@@ -69,44 +70,57 @@ public class MainCanvas extends Canvas3D {
 	    pg.addChild(light2);
 	 
 	    viewingPlatform.setPlatformGeometry(pg);
-	 
+	    
 	    // This will move the ViewPlatform back a bit so the
 	    // objects in the scene can be viewed.
 	    viewingPlatform.setNominalViewingTransform();
-	 
+	    
 	    if (!spin) {
 	      OrbitBehavior orbit = new OrbitBehavior(this,
 	          OrbitBehavior.REVERSE_ALL);
 	      BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0,
 	          0.0), 100.0);
+	      
 	      orbit.setSchedulingBounds(bounds);
+	        
 	      viewingPlatform.setViewPlatformBehavior(orbit);
 	    }
 	 
 	    u.addBranchGraph(scene);
 	}
 	
-	public void addObjects() {
-		Eva r = new Eva();
-		r.setDance(new EvaDance(r));
-		
-		this.addObject(r.getSuperGroup());
-		this.registerAnimatableObjects(r);
-		
-		Android a = new Android();
-		a.setDance(new AndroidDance(a));
-		
-		this.addObject(a.getSuperGroup());
-		this.registerAnimatableObjects(a);
-		
-		a.branch.transition(-1.5, 0, 0);
-		r.branch.transition(1.5, 0, 0);
-		
-		a.startDancing();
-		r.startDancing();
+	public boolean isDancingMode() {
+		return this.isDancingMode;
 	}
 	
-	public void addObject(Group object) {
+	public void startRobotsDance() {
+		this.isDancingMode = true;
+		
+		for(int i = 0; i<robots.size();i++)
+		{
+			robots.get(i).startDancing();
+		}
+	}
+	
+	public void stopRobotsDance() {
+		this.isDancingMode = false;
+		
+		for(int i = 0; i<robots.size();i++)
+		{
+			robots.get(i).stopDancing();
+		}
+	}
+	
+	public void addRobot(Robot r) {
+		robots.add(r);
+		this.addObject(r.getSuperGroup());
+		
+		if(isDancingMode) {
+			r.startDancing();
+		}
+	}
+	
+	public void addObject(BranchGroup object) {
 		worldGroup.addChild(object);
 	}
 	
@@ -133,7 +147,6 @@ public class MainCanvas extends Canvas3D {
 	    TransformGroup objScale = new TransformGroup();
 	    Transform3D t3d = new Transform3D();
 	    t3d.setScale(this.worldScale);
-	    
 	    objScale.setTransform(t3d);
 	    objRoot.addChild(objScale);
 	 
@@ -142,12 +155,19 @@ public class MainCanvas extends Canvas3D {
 	    // our behavior code can modify it at runtime. Add it to the
 	    // root of the subgraph.
 	    
-	    worldGroup = new TransformGroup();
-	    worldGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-	    worldGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-	    objScale.addChild(worldGroup);
-	 
-	    this.addObjects();
+	    TransformGroup transformGroup = new TransformGroup();
+	    transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+	    transformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+	    
+	    worldGroup = new BranchGroup();
+	    worldGroup.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+	    worldGroup.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+	    worldGroup.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+	    worldGroup.setCapability(BranchGroup.ALLOW_DETACH);
+	    
+	    transformGroup.addChild(worldGroup);
+	    
+	    objScale.addChild(transformGroup);	 
 	    
 	    bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
 	 
@@ -155,12 +175,13 @@ public class MainCanvas extends Canvas3D {
 	      Transform3D yAxis = new Transform3D();
 	      Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,
 	          4000, 0, 0, 0, 0, 0);
-	 
+	      
 	      RotationInterpolator rotator = new RotationInterpolator(
-	          rotationAlpha, worldGroup, yAxis, 0.0f,
+	          rotationAlpha, transformGroup, yAxis, 0.0f,
 	          (float) Math.PI * 2.0f);
 	      rotator.setSchedulingBounds(bounds);
-	      worldGroup.addChild(rotator);
+	      transformGroup.addChild(rotator);
+	      
 	    }
 	 
 	    // Set up the background
